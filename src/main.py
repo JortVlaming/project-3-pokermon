@@ -1,1 +1,3 @@
-print("Hello pokermon!")
+from logger import *
+
+info("Hello pokermon!")
