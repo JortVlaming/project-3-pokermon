@@ -1,8 +1,8 @@
 import time
 
-from logger import *
 import pygame
-import threading
+
+from logger import *
 
 info("Hello pokermon!")
 
@@ -70,12 +70,13 @@ def run():
             frames += 1
 
             should_render = False
+
+            pygame.display.flip()
+
             pass
         else:
             time.sleep(1.0/1000.0)
 
 set_level(LogLevel.DEBUG)
 
-game_thread = threading.Thread(target=run)
-game_thread.start()
-game_thread.join()
+run()
