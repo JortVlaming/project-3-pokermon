@@ -60,7 +60,7 @@ def log(level:LogLevel, *args):
                 # als het enkele argument een tuple of list is print het eerste element
                 if len(args[0]) == 1:
                     # als er maar een element is print dat element
-                    print(level.value[1] + level.value[2] + " " + args[0][0] + Fore.RESET)
+                    print(level.value[1] + level.value[2] + " " + str(args[0][0]) + Fore.RESET)
                 else:
                     # als er meer elementen zijn print de normale lijst
                     print(level.value[1] + level.value[2] + " " + __join(" ", args[0]) + Fore.RESET)
