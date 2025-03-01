@@ -7,7 +7,11 @@ from logger import *
 info("Hello pokermon!")
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 clock = pygame.time.Clock()
 
 UPDATE_CAP = 1.0/60.0
@@ -15,13 +19,20 @@ game_thread = None
 
 running = True
 
+font = pygame.font.Font(None, 64)
+
 def update():
     # TODO: update game
     pass
 
 def render():
     # TODO: render game
-    pass
+    screen.fill("Red")
+
+    textSTR = "Hello pokermon!"
+    text = font.render(textSTR, True, (255, 255, 255))
+    textpos = text.get_rect(centerx=SCREEN_WIDTH/2-len(textSTR)/2, y=10)
+    screen.blit(text, textpos)
 
 def run():
     global running
