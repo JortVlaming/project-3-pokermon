@@ -4,6 +4,7 @@ import colorama
 from colorama import Fore
 
 class LogLevel(Enum):
+    VERBOSE = (-1, Fore.BLUE, "[VERBOSE]")
     DEBUG = (0, Fore.LIGHTBLACK_EX, "[DEBUG]")
     INFO = (1, Fore.RESET, "[INFO]")
     WARN = (2, Fore.YELLOW, "[WARN]")
@@ -22,6 +23,15 @@ def set_level(level:LogLevel):
     """
     global __LOG_LEVEL
     __LOG_LEVEL = level
+
+def __join(sep, to_join):
+    res = ""
+    for s in to_join:
+        res = res + str(s) + sep
+
+    res = res[:-(len(sep))]
+
+    return res
 
 def log(level:LogLevel, *args):
     """
@@ -50,18 +60,28 @@ def log(level:LogLevel, *args):
                 # als het enkele argument een tuple of list is print het eerste element
                 if len(args[0]) == 1:
                     # als er maar een element is print dat element
-                    print(level.value[1] + level.value[2] + " " + args[0][0] + Fore.RESET)
+                    print(level.value[1] + level.value[2] + " " + str(args[0][0]) + Fore.RESET)
                 else:
                     # als er meer elementen zijn print de normale lijst
-                    print(level.value[1] + level.value[2] + " " + args[0] + Fore.RESET)
+                    print(level.value[1] + level.value[2] + " " + __join(" ", args[0]) + Fore.RESET)
             else:
                 # argument can worden gecast naar string
                 print(level.value[1] + level.value[2] + " " + str(args[0]) + Fore.RESET)
         else:
             # print alle argumenten in een keer
-            print(level.value[1] + level.value[2] + " " + " ".join(args) + Fore.RESET)
+            print(level.value[1] + level.value[2] + " " + __join(" ", args) + Fore.RESET)
 
 # standalone functies die shortcuts zijn voor de hoofdfunctie
+def verbose(*args):
+    """
+    Logged een bericht met ``VERBOSE`` log level
+
+    :param args: Argumenten om het bericht te bouwen
+    :raises Exception: Als er geen argumenten zijn om een bericht te bouwen
+    :return:
+    """
+    log(LogLevel.VERBOSE, args)
+
 def debug(*args):
     """
     Logged een bericht met ``DEBUG`` log level
