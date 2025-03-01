@@ -4,6 +4,7 @@ import colorama
 from colorama import Fore
 
 class LogLevel(Enum):
+    VERBOSE = (-1, Fore.BLUE, "[VERBOSE]")
     DEBUG = (0, Fore.LIGHTBLACK_EX, "[DEBUG]")
     INFO = (1, Fore.RESET, "[INFO]")
     WARN = (2, Fore.YELLOW, "[WARN]")
@@ -71,6 +72,16 @@ def log(level:LogLevel, *args):
             print(level.value[1] + level.value[2] + " " + __join(" ", args) + Fore.RESET)
 
 # standalone functies die shortcuts zijn voor de hoofdfunctie
+def verbose(*args):
+    """
+    Logged een bericht met ``VERBOSE`` log level
+
+    :param args: Argumenten om het bericht te bouwen
+    :raises Exception: Als er geen argumenten zijn om een bericht te bouwen
+    :return:
+    """
+    log(LogLevel.VERBOSE, args)
+
 def debug(*args):
     """
     Logged een bericht met ``DEBUG`` log level
