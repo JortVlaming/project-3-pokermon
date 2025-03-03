@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 Globals.set_window(screen)
 
 renderer = Renderer(screen)
-renderer.set_background_color("Red")
+renderer.set_background_color((0, 205, 255))
 
 UPDATE_CAP = 1.0/60.0
 
@@ -28,15 +28,27 @@ font = pygame.font.Font(None, 64)
 square = Square(100, 100, "Blue", 100, 100)
 sprite = Sprite(300, 300, "assets/test.jpg")
 
+render_test = Square(0, 300, "Yellow", 0, 25)
+test_width = 0
+test_mode = 5
+
 def update():
+    global test_width, test_mode
     # TODO: update game
-    pass
+    test_width += test_mode
+    if test_width >= 800 and test_mode == 5:
+        test_mode = -5
+    elif test_width <= 0 and test_mode == -5:
+        test_mode = 5
 
 def render():
     # TODO: render game
     renderer.draw_text_x_centered("Hello pokermon!", 50)
     square.draw()
     sprite.draw()
+
+    render_test.set_width(test_width)
+    render_test.draw()
 
 def run():
     global running

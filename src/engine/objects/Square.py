@@ -26,3 +26,17 @@ class Square(GameObject):
 
     def draw(self, *args, **kwargs):
         Globals.get_window().blit(self.image, (self.x, self.y))
+
+    def set_width(self, width: int):
+        if width < 0:
+            width = 0
+        self.width = width
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.color)
+
+    def set_height(self, height: int):
+        if height < 0:
+            height = 0
+        self.height = height
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(self.color)
