@@ -2,10 +2,10 @@ import time
 
 import pygame
 
-from logger import *
-from src.renderer import Renderer
 from src.engine.Globals import Globals
 from src.engine.logger import *
+from src.engine.objects.Sprite import Sprite
+from src.engine.objects.Square import Square
 from src.engine.renderer import Renderer
 
 info("Hello pokermon!")

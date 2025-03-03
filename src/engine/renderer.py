@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pygame
 
-from src.logger import verbose
+from src.engine.logger import verbose
 
 
 class Renderer:
