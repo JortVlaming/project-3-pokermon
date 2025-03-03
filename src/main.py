@@ -25,6 +25,7 @@ UPDATE_CAP = 1.0/60.0
 running = True
 
 font = pygame.font.Font(None, 64)
+square = Square(100, 100, "Blue", 100, 100)
 
 def update():
     # TODO: update game
@@ -33,6 +34,7 @@ def update():
 def render():
     # TODO: render game
     renderer.draw_text_x_centered("Hello pokermon!", 50)
+    square.draw()
 
 def run():
     global running
