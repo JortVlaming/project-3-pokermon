@@ -26,6 +26,7 @@ running = True
 
 font = pygame.font.Font(None, 64)
 square = Square(100, 100, "Blue", 100, 100)
+sprite = Sprite(300, 300, "assets/test.jpg")
 
 def update():
     # TODO: update game
@@ -35,6 +36,7 @@ def render():
     # TODO: render game
     renderer.draw_text_x_centered("Hello pokermon!", 50)
     square.draw()
+    sprite.draw()
 
 def run():
     global running
