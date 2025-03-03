@@ -19,7 +19,11 @@ if [ ! -d "$VENV_DIR" ]; then
 fi
 
 # Activate the virtual environment
-source "$VENV_DIR/bin/activate"
+if [ -d "$VENV_DIR/bin "]; then
+  source "$VENV_DIR/bin/activate"
+else if [ -d "$VENV_DIR/Scripts" ]; then
+  source "$VENV_DIR/Scripts/activate"
+fi
 
 # Check if requirements.txt exists
 if [ ! -f "requirements.txt" ]; then
