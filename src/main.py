@@ -4,6 +4,9 @@ import pygame
 
 from logger import *
 from src.renderer import Renderer
+from src.engine.Globals import Globals
+from src.engine.logger import *
+from src.engine.renderer import Renderer
 
 info("Hello pokermon!")
 
@@ -12,6 +15,7 @@ pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+Globals.set_window(screen)
 
 renderer = Renderer(screen)
 renderer.set_background_color("Red")
@@ -52,8 +56,6 @@ def run():
             unprocessedTime -= UPDATE_CAP
             should_render = True
 
-            verbose("UPDATE")
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -67,8 +69,6 @@ def run():
                 debug("FPS:", fps)
 
         if should_render:
-            verbose("RENDER")
-
             renderer.start_frame()
 
             render()
@@ -83,6 +83,6 @@ def run():
         else:
             time.sleep(1.0/1000.0)
 
-set_level(LogLevel.VERBOSE)
+set_level(LogLevel.DEBUG)
 
 run()
