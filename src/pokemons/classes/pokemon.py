@@ -1,4 +1,4 @@
-from src.engine.objects.Sprite import Sprite
+from src.engine.objects.sprite import Sprite
 
 
 class Pokemon(Sprite):

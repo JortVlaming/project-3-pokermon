@@ -2,8 +2,8 @@ from typing import Callable
 
 import pygame
 
-from src.engine.Globals import Globals
-from src.engine.objects.GameObject import GameObject
+from src.engine.globals import Globals
+from src.engine.objects.gameObject import GameObject
 
 
 class Sprite(GameObject):

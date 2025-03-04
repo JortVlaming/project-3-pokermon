@@ -2,8 +2,8 @@ from typing import Tuple, Callable
 
 import pygame
 
-from src.engine.objects.GameObject import GameObject
-from src.engine.Globals import Globals
+from src.engine.objects.gameObject import GameObject
+from src.engine.globals import Globals
 
 
 class Square(GameObject):

@@ -4,8 +4,8 @@ import pygame
 
 from src.engine.globals import Globals
 from src.engine.logger import *
-from src.engine.objects.Sprite import Sprite
-from src.engine.objects.Square import Square
+from src.engine.objects.sprite import Sprite
+from src.engine.objects.square import Square
 from src.engine.renderer import Renderer
 from src.pokemons.pokemons.froggo import Froggo
 
