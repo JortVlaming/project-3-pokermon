@@ -7,6 +7,7 @@ from src.engine.logger import *
 from src.engine.objects.Sprite import Sprite
 from src.engine.objects.Square import Square
 from src.engine.renderer import Renderer
+from src.pokemons.pokemons.froggo import Froggo
 
 info("Hello pokermon!")
 
@@ -18,7 +19,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 Globals.set_window(screen)
 
 renderer = Renderer(screen)
-renderer.set_background_color((0, 205, 255))
+renderer.set_background_color((0, 205, 205))
 
 UPDATE_CAP = 1.0/60.0
 
@@ -27,6 +28,8 @@ running = True
 font = pygame.font.Font(None, 64)
 square = Square(100, 100, "Blue", 100, 100)
 sprite = Sprite(300, 300, "assets/test.jpg")
+
+froggo = Froggo(100,400)
 
 render_test = Square(0, 300, "Yellow", 0, 25)
 test_width = 0
@@ -49,6 +52,8 @@ def render():
 
     render_test.set_width(test_width)
     render_test.draw()
+
+    froggo.draw()
 
 def run():
     global running
