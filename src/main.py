@@ -2,7 +2,7 @@ import time
 
 import pygame
 
-from src.engine.Globals import Globals
+from src.engine.globals import Globals
 from src.engine.logger import *
 from src.engine.objects.Sprite import Sprite
 from src.engine.objects.Square import Square
@@ -20,6 +20,8 @@ Globals.set_window(screen)
 
 renderer = Renderer(screen)
 renderer.set_background_color((0, 205, 205))
+
+Globals.set_renderer(renderer)
 
 UPDATE_CAP = 1.0/60.0
 
