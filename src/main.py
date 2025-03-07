@@ -7,6 +7,9 @@ from src.engine.logger import *
 from src.engine.objects.sprite import Sprite
 from src.engine.objects.square import Square
 from src.engine.renderer import Renderer
+from src.engine.ui.imageButton import ImageButton
+from src.engine.ui.textButton import TextButton
+from src.engine.ui.button import Button
 from src.pokemons.pokemons.froggo import Froggo
 
 info("Hello pokermon!")
@@ -37,6 +40,17 @@ render_test = Square(0, 300, "Yellow", 0, 25)
 test_width = 0
 test_mode = 5
 
+def test_on_click(btn: Button):
+    info("BUTTON CLICK")
+
+test_button = TextButton(400, 200, 100, 100, "Yellow", "Test")
+test_button.set_on_click(test_on_click)
+
+test_button2 = ImageButton(550, 200, "assets/cards/ruit/ruitA.png", 4)
+test_button2.set_on_click(test_on_click)
+
+buttons = [test_button, test_button2]
+
 def update():
     global test_width, test_mode
     # TODO: update game
@@ -57,6 +71,9 @@ def render():
 
     froggo.draw()
 
+    for btn in buttons:
+        btn.draw()
+
 def run():
     global running
 
@@ -66,6 +83,8 @@ def run():
 
     frameTime = 0
     frames = 0
+
+    startTime = time.time()
 
     while running:
         firstTime = time.time_ns() / 1_000_000_000.0
@@ -82,6 +101,11 @@ def run():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    for btn in buttons:
+                        if btn.is_in_bounds(pos[0], pos[1]):
+                            btn.click()
 
             update()
 
@@ -105,6 +129,10 @@ def run():
             pygame.display.flip()
         else:
             time.sleep(1.0/1000.0)
+
+    endTime = time.time()
+
+    info(f"Runtime of game: {round(endTime - startTime, 2)}s")
 
 if __name__ == "__main__":
     set_level(LogLevel.DEBUG)
