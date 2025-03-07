@@ -3,6 +3,7 @@ import time
 import pygame
 
 from src.engine.globals import Globals
+from src.engine.inputManager import InputManager
 from src.engine.logger import *
 from src.engine.objects.sprite import Sprite
 from src.engine.objects.square import Square
@@ -51,6 +52,8 @@ test_button2.set_on_click(test_on_click)
 
 buttons = [test_button, test_button2]
 
+inputManager = InputManager()
+
 def update():
     global test_width, test_mode
     # TODO: update game
@@ -59,6 +62,11 @@ def update():
         test_mode = -5
     elif test_width <= 0 and test_mode == -5:
         test_mode = 5
+
+    if inputManager.is_key_down(pygame.K_SPACE):
+        info("SPACE BAR PRESSED")
+    if inputManager.is_key_held(pygame.K_SPACE):
+        info("SPACE BAR HELD")
 
 def render():
     # TODO: render game
@@ -98,6 +106,8 @@ def run():
             unprocessedTime -= UPDATE_CAP
             should_render = True
 
+            inputManager.update()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -106,6 +116,8 @@ def run():
                     for btn in buttons:
                         if btn.is_in_bounds(pos[0], pos[1]):
                             btn.click()
+
+                inputManager.process_event(event)
 
             update()
 
