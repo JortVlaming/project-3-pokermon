@@ -106,6 +106,7 @@ def run():
         else:
             time.sleep(1.0/1000.0)
 
-set_level(LogLevel.DEBUG)
+if __name__ == "__main__":
+    set_level(LogLevel.DEBUG)
 
-run()
+    run()
