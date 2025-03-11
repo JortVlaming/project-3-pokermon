@@ -54,6 +54,3 @@ class TestState(State):
         self.render_test.draw()
 
         self.froggo.draw()
-
-        for btn in self.buttons:
-            btn.draw()
