@@ -46,3 +46,6 @@ class Renderer:
         x = int(w/2-len(text)/2)
         kwargs["centered"] = True
         self.draw_text(text, x, y, **kwargs)
+
+    def get_text_width(self, txt:str) -> int:
+        return self.font.render(txt, False, (0, 0, 0, 0)).get_width()
