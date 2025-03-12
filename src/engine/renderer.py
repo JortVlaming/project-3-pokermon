@@ -30,8 +30,11 @@ class Renderer:
         pygame.display.flip()
         verbose("[renderer] finished a frame")
 
+    def get_font_of_size(self, size: int):
+        return pygame.font.Font(None, size)
+
     def draw_text(self, text: str, x: int, y: int, **kwargs):
-        text_surface = self.font.render(text, kwargs["antialias"] if "antialias" in kwargs else True, kwargs["color"] if "color" in kwargs else self.text_color)
+        text_surface = (self.font if "size" not in kwargs and not isinstance(kwargs["size"], int) else self.get_font_of_size(kwargs["size"])).render(text, kwargs["antialias"] if "antialias" in kwargs else True, kwargs["color"] if "color" in kwargs else self.text_color)
         if "centered" in kwargs:
             if kwargs["centered"]:
                 text_pos = text_surface.get_rect(centerx=x, centery=y)
@@ -46,3 +49,6 @@ class Renderer:
         x = int(w/2-len(text)/2)
         kwargs["centered"] = True
         self.draw_text(text, x, y, **kwargs)
+
+    def get_text_width(self, txt:str) -> int:
+        return self.font.render(txt, False, (0, 0, 0, 0)).get_width()

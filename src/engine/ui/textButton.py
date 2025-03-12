@@ -7,7 +7,7 @@ from src.engine.ui.button import Button
 
 
 class TextButton(Button):
-    def __init__(self, x:int, y:int, width: int, height: int, color: str|Tuple[int, int, int], text: str):
+    def __init__(self, x:int, y:int, width: int, height: int, color: str|Tuple[int, int, int], text: str, text_color:str|Tuple[int, int, int]="Black"):
         super().__init__(x, y, width, height)
 
         self.color = color
@@ -19,10 +19,11 @@ class TextButton(Button):
         self.image.fill(color)
 
         self.text = text
+        self.text_color = text_color
 
     def draw(self):
         Globals.get_renderer().screen.blit(self.image, (self.x, self.y))
-        text_surface = Globals.get_renderer().font.render(self.text, True, "White")
+        text_surface = Globals.get_renderer().font.render(self.text, True, self.text_color)
 
         x = self.x + self.width/2
         y = self.y + self.height/2

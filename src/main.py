@@ -7,6 +7,7 @@ from src.engine.inputManager import InputManager
 from src.engine.logger import *
 from src.engine.renderer import Renderer
 from src.engine.state.stateMachine import StateMachine
+from src.states.mainMenuState import MainMenuState
 from src.states.testState import TestState
 
 info("Hello pokermon!")
@@ -35,9 +36,9 @@ Globals.inputManager = inputManager
 stateMachine = StateMachine()
 Globals.stateMachine = stateMachine
 
-testState = TestState()
+mainMenuState = MainMenuState()
 
-stateMachine.huidige_staat = testState
+stateMachine.huidige_staat = mainMenuState
 
 def run():
     global running

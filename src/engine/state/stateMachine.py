@@ -1,15 +1,67 @@
-﻿from src.engine.state.state import State
-
+﻿from src.engine.logger import info
+from src.engine.state.state import State
 
 class StateMachine:
-    huidige_staat: State|None = None
+    huidige_staat: State | None = None
+    transitie_staat: State | None = None
+    transitie_tijd = 0.5  # Tijd van de transitie in seconden
+    transitie_timer = 0
+    transitie_opaciteit = 0  # 0 = volledig zichtbaar, 255 = volledig zwart
+    transitie_snelheid = 255 / (transitie_tijd * 60)  # FPS-afhankelijke snelheid
+    transitie = False
+    transitie_stand = 0
 
     def __init__(self):
         pass
 
+    def start_transitie(self, nieuwe_staat: State, tijd: float = 0.5):
+        """Start een fade-out, wissel de staat, en start een fade-in."""
+        self.transitie = True
+        self.transitie_staat = nieuwe_staat
+        self.transitie_tijd = tijd
+        self.transitie_snelheid = 255 / (tijd * 60)  # Aangepaste snelheid
+        self.transitie_opaciteit = 0
+        self.huidige_staat.do_process_buttons = False
+        info(f"Started transition from {type(self.huidige_staat).__name__} to {type(nieuwe_staat).__name__}")
+
     def update(self):
-        if self.huidige_staat is not None:
+        if self.transitie:
+            # Fade-out fase
+            if self.transitie_opaciteit < 255 and self.huidige_staat is not None and self.transitie_stand == 0:
+                self.transitie_opaciteit += self.transitie_snelheid
+            # Wissel van staat als volledig zwart
+            elif self.transitie_staat is not None and self.transitie_stand == 0:
+                self.huidige_staat.do_process_buttons = True
+                self.transitie_staat.do_process_buttons = False
+                self.huidige_staat = self.transitie_staat
+                self.transitie_staat = None
+                self.transitie_opaciteit = 255  # Begin fade-in
+                self.transitie_stand = 1
+            # Fade-in fase
+            elif self.transitie_opaciteit > 0 and self.transitie_stand == 1:
+                self.transitie_opaciteit -= self.transitie_snelheid
+            else:
+                self.transitie = False  # Transitie voltooid
+                self.huidige_staat.do_process_buttons = True
+                self.transitie_stand = 0
+
+        if self.huidige_staat is not None and not self.transitie:
             self.huidige_staat.update()
+            if self.huidige_staat.do_process_buttons:
+                self.huidige_staat.process_buttons()
+
     def draw(self):
         if self.huidige_staat is not None:
             self.huidige_staat.draw()
+            for btn in self.huidige_staat.buttons:
+                btn.draw()
+
+        if self.transitie_opaciteit > 0:
+            # Teken een zwart vlak met de juiste transparantie
+            import pygame
+            scherm = pygame.display.get_surface()
+            overlay = pygame.Surface(scherm.get_size(), pygame.SRCALPHA)
+            if self.transitie_opaciteit > 255:
+                self.transitie_opaciteit = 255
+            overlay.fill((0, 0, 0, int(self.transitie_opaciteit)))
+            scherm.blit(overlay, (0, 0))

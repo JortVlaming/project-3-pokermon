@@ -44,12 +44,6 @@ class TestState(State):
         if Globals.inputManager.is_key_held(pygame.K_SPACE):
             info("SPACE BAR HELD")
 
-        if Globals.inputManager.is_button_down(pygame.BUTTON_LEFT):
-            mX, mY = pygame.mouse.get_pos()
-            for btn in self.buttons:
-                if btn.is_in_bounds(mX, mY):
-                    btn.click()
-
     def draw(self):
         Globals.renderer.draw_text_x_centered("Hello pokermon!", 50)
 
@@ -60,6 +54,3 @@ class TestState(State):
         self.render_test.draw()
 
         self.froggo.draw()
-
-        for btn in self.buttons:
-            btn.draw()
