@@ -1,3 +1,4 @@
+import random
 from typing import Tuple
 
 import pygame
@@ -137,15 +138,44 @@ class FightState(State):
         if not isinstance(btn, MoveButton):
             return
 
-        info(btn.move.name)
+        if self.speler.speed > self.ai.speed:
+            info(btn.move.name)
 
-        if self.speler.moves[btn.index][1] <= 0:
-            info("Geen PP!")
-            return
+            if self.speler.moves[btn.index][1] <= 0:
+                info("Geen PP!")
+                return
 
-        self.speler.moves[btn.index][1] -= 1
+            self.speler.moves[btn.index][1] -= 1
 
-        self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai, True)
-        if self.ai.hp <= 0:
-            info("speler wint")
-            self.ai.hp = 0
+            self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai, True)
+            if self.ai.hp <= 0:
+                info("speler wint")
+                self.ai.hp = 0
+                return
+        else:
+            warn("AI Moved eerst")
+
+            move = random.choice(self.ai.moves)
+
+            dmg = move[0].calculate_damage(self.ai, self.speler, True)
+
+            self.speler.hp -= dmg
+
+            if self.speler.hp <= 0:
+                self.speler.hp = 0
+                warn("Speler is dood")
+                return
+
+            info(btn.move.name)
+
+            if self.speler.moves[btn.index][1] <= 0:
+                info("Geen PP!")
+                return
+
+            self.speler.moves[btn.index][1] -= 1
+
+            self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai, True)
+            if self.ai.hp <= 0:
+                info("speler wint")
+                self.ai.hp = 0
+                return
