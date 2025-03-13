@@ -37,6 +37,7 @@ class StateMachine:
                 self.transitie_staat = None
                 self.transitie_opaciteit = 255  # Begin fade-in
                 self.transitie_stand = 1
+                self.huidige_staat.transition_cue()
             # Fade-in fase
             elif self.transitie_opaciteit > 0 and self.transitie_stand == 1:
                 self.transitie_opaciteit -= self.transitie_snelheid
