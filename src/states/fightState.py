@@ -94,7 +94,18 @@ class FightState(State):
         renderer.draw_rect(color, 15, renderer.screen.get_height()-75, length, 20)
         renderer.draw_image("assets/healthbar.png", 15, renderer.screen.get_height()-80, 5)
 
-        renderer.draw_text(f"{self.speler.hp}/{self.speler.max_hp}", 15, renderer.screen.get_height()-50, size=32)
+        renderer.draw_text(f"{self.speler.hp}/{self.speler.max_hp}", 15, renderer.screen.get_height()-47, size=32)
+
+        r = renderer.draw_rect((150, 150, 150), self.ai.x-275, self.ai.y, 255, 100, 10)
+
+        renderer.draw_text_centered(self.ai.name, r, start=48, y_offset=-15, alignment="left", x_offset=10)
+
+        ai_length, ai_color = get_health_bar(self.ai.hp, self.ai.max_hp, 31 * 5)
+
+        renderer.draw_rect(color, r.x+10, r.y+r.height-40, ai_length, 20)
+        renderer.draw_image("assets/healthbar.png", r.x+10, r.y+r.height-45, 5)
+
+        renderer.draw_text(f"{self.ai.hp}/{self.ai.max_hp}", r.x+10+(31*5), r.y+r.height-50+10, size=32)
 
         x = 250
 

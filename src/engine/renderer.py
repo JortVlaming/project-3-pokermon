@@ -69,6 +69,7 @@ class Renderer:
 
         font = kwargs.get("font", pygame.font.Font(None, 36))  # Default font
         max_width, max_height = rect.width, rect.height
+        text_width, text_height = 0, 0
 
         font_size = kwargs.get("start", 72)
         while 10 < font_size:
@@ -82,6 +83,11 @@ class Renderer:
         text_surface = font.render(text, True, kwargs.get("color", (255, 255, 255)))
         x, y = rect.center
         y += kwargs.get("y_offset", 0)
+        if kwargs.get("alignment", "center") == "left":
+            x = rect.x+text_width/2
+        elif kwargs.get("alignment", "center") == "right":
+            x = rect.x + rect.width-text_width
+        x += kwargs.get("x_offset", 0)
         text_rect = text_surface.get_rect(center=(x,y))
 
         self.screen.blit(text_surface, text_rect)
