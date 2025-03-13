@@ -57,3 +57,6 @@ class Renderer:
 
     def get_text_width(self, txt:str) -> int:
         return self.font.render(txt, False, (0, 0, 0, 0)).get_width()
+
+    def draw_rect(self, color: str | Tuple[int, int, int], x:int, y:int, width: int, height: int, border_radius:int=0):
+        pygame.draw.rect(self.screen, color, pygame.Rect(x, y, width, height), border_radius=border_radius)
