@@ -134,3 +134,7 @@ class FightState(State):
             return
 
         info(btn.move.name)
+        self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai)
+        if self.ai.hp <= 0:
+            info("speler wint")
+            self.ai.hp = 0
