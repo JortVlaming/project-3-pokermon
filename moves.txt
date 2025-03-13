@@ -1,0 +1,28 @@
+﻿# Frog moves
+
+Lick (30)
+Body Slam (80)
+Barb barrage (60)
+Cross poison (70)
+
+# Raccoon
+
+Headbutt (70)
+Bite (60)
+Feint attack (60)
+Foul play (90)
+
+# Spider
+
+Bug bite (60)
+First impression (90)
+lunge (80)
+Poison fang (70)
+
+
+# Turtles
+
+Explosion (250)
+Tackle (40)
+Head smash (90)
+Headbutt (70)
