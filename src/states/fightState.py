@@ -3,6 +3,7 @@ from typing import Tuple
 import pygame
 
 from src.engine.globals import Globals
+from src.engine.logger import debug
 from src.engine.state.state import State
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
@@ -75,3 +76,18 @@ class FightState(State):
         renderer.draw_image("assets/healthbar.png", 15, renderer.screen.get_height()-80, 5)
 
         renderer.draw_text(f"{self.speler.hp}/{self.speler.max_hp}", 15, renderer.screen.get_height()-50, size=32)
+
+        x = 250
+
+        for i in range(4):
+            move = self.speler.moves[i] if i < len(self.speler.moves) else None
+
+            if move:
+                r = renderer.draw_rect((255, 255, 255) if move[1] > 0 else (125, 125, 125), x, renderer.screen.get_height()-125, 100, 100)
+                renderer.draw_text_centered(type(move[0]).__name__, r, start=48, color=(0,0,0), y_offset=-20)
+                renderer.draw_text_centered(f"{move[1]}/{move[2]} PP", r, start=24, color=(0,0,0), y_offset=20)
+            else:
+                r = renderer.draw_rect((100, 100, 100), x, renderer.screen.get_height()-125, 100, 100)
+                renderer.draw_text_centered("-", r, color=(75, 75, 75))
+
+            x += 125
