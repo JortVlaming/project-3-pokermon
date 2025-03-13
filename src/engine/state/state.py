@@ -15,6 +15,9 @@ class State:
 
     def draw(self):
         pass
+
+    def transition_cue(self):
+        pass
     
     def process_buttons(self):
         from src.engine.globals import Globals

@@ -62,6 +62,9 @@ class FightState(State):
 
         self.buttons_made = False
 
+    def transition_cue(self):
+        self.ai.hp = self.ai.max_hp
+
 
     def update(self):
         if self.staat == 0:
@@ -73,6 +76,8 @@ class FightState(State):
                 self.speler.hp += 1
                 if self.speler.hp > self.speler.max_hp:
                     self.speler.hp = self.speler.max_hp
+            if Globals.inputManager.is_key_down(pygame.K_r):
+                Globals.stateMachine.start_transitie(FightState(self.speler, self.ai), 1.5)
 
     def draw(self):
         self.speler.draw()
