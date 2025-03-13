@@ -9,7 +9,7 @@ class Froggo(Pokemon):
         super().__init__(x, y, "assets/Evil_frog.png")
 
         self.name = "Froggo"
-        self.max_hp = 100
+        self.max_hp = 70
         self.hp = self.max_hp
         self.speed = 150
         self.attack = 120
