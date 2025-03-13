@@ -152,6 +152,17 @@ class FightState(State):
                 info("speler wint")
                 self.ai.hp = 0
                 return
+
+            move = random.choice(self.ai.moves)
+
+            dmg = move[0].calculate_damage(self.ai, self.speler, True)
+
+            self.speler.hp -= dmg
+
+            if self.speler.hp <= 0:
+                self.speler.hp = 0
+                warn("Speler is dood")
+                return
         else:
             warn("AI Moved eerst")
 
