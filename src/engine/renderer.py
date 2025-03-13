@@ -11,7 +11,6 @@ class Renderer:
         self.font: pygame.font.Font|None = None
         self.set_font(None, 64)
         self.text_color = (255, 255, 255)
-        self.background_color = (0, 0, 0)
 
     def set_font(self, font, size):
         self.font = pygame.font.Font(font, size)
@@ -19,12 +18,14 @@ class Renderer:
     def set_text_color(self, color: Tuple[int, int, int]|str):
         self.text_color = color
 
-    def set_background_color(self, color: Tuple[int, int, int]|str):
-        self.background_color = color
-
     def start_frame(self):
         verbose("[renderer] started a frame")
-        self.screen.fill(self.background_color)
+        from src.engine.globals import Globals
+        huidige = Globals.stateMachine.huidige_staat
+        if not huidige:
+            self.screen.fill((255, 0, 255))
+        else:
+            self.screen.fill(huidige.background_color)
 
     def end_frame(self):
         pygame.display.flip()

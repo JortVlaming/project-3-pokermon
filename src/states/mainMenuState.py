@@ -15,7 +15,8 @@ class MainMenuState(State):
         startButton.set_on_click(lambda button : Globals.stateMachine.start_transitie(TestState(), 1.5))
 
         self.buttons.append(startButton)
-`
+        self.background_color = (0, 205, 205)
+
     def draw(self):
         from src.engine.globals import Globals
         Globals.renderer.draw_text_x_centered("Pokermon", 120, color="Black", size=96)
