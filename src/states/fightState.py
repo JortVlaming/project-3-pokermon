@@ -106,7 +106,7 @@ class FightState(State):
 
         ai_length, ai_color = get_health_bar(self.ai.hp, self.ai.max_hp, 31 * 5)
 
-        renderer.draw_rect(color, r.x+10, r.y+r.height-40, ai_length, 20)
+        renderer.draw_rect(ai_color, r.x+10, r.y+r.height-40, ai_length, 20)
         renderer.draw_image("assets/healthbar.png", r.x+10, r.y+r.height-45, 5)
 
         renderer.draw_text(f"{self.ai.hp}/{self.ai.max_hp}", r.x+10+(31*5), r.y+r.height-50+10, size=32)
