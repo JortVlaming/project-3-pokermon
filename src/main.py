@@ -17,10 +17,10 @@ pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Pokermon")
 Globals.set_window(screen)
 
 renderer = Renderer(screen)
-renderer.set_background_color((0, 205, 205))
 
 Globals.set_renderer(renderer)
 

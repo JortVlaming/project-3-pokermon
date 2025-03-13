@@ -1,7 +1,7 @@
 from src.engine.objects.sprite import Sprite
 
 
-class Pokemon(Sprite):
+class Pokermon(Sprite):
     name:str = ""
     hp:int = 0
     max_hp:int = 0
