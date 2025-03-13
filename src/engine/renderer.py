@@ -60,3 +60,12 @@ class Renderer:
 
     def draw_rect(self, color: str | Tuple[int, int, int], x:int, y:int, width: int, height: int, border_radius:int=0):
         pygame.draw.rect(self.screen, color, pygame.Rect(x, y, width, height), border_radius=border_radius)
+
+    def draw_image(self, image: str | pygame.Surface, x:int, y:int, image_scale:int=1):
+        if isinstance(image, str):
+            image = pygame.image.load(image)
+            image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
+        else:
+            image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
+
+        self.screen.blit(image, (x, y))
