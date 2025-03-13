@@ -1,8 +1,11 @@
-﻿import pygame
+﻿from typing import Tuple
+
+import pygame
 
 class State:
     buttons = []
     do_process_buttons = True
+    background_color: Tuple[int, int, int]|str = (255,0,255)
     
     def __init__(self):
         pass
@@ -11,6 +14,9 @@ class State:
         pass
 
     def draw(self):
+        pass
+
+    def transition_cue(self):
         pass
     
     def process_buttons(self):
