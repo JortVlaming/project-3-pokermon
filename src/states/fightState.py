@@ -3,9 +3,8 @@ from typing import Tuple
 import pygame
 
 from src.engine.globals import Globals
-from src.engine.logger import debug, info
+from src.engine.logger import info, warn
 from src.engine.state.state import State
-
 from src.engine.ui.button import Button
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
@@ -29,12 +28,13 @@ def get_health_bar(base: int, max_value: int, scale: int) -> Tuple[int, Tuple[in
     return bar_length, color
 
 class MoveButton(Button):
-    def __init__(self, x: int, y: int, width: int, height: int, move: Attack):
+    def __init__(self, x: int, y: int, width: int, height: int, move: Attack, index:int):
         super().__init__(x, y, width, height)
 
         self.width = width
         self.height = height
         self.move = move
+        self.index = index
 
     def draw(self):
         pass
@@ -65,6 +65,9 @@ class FightState(State):
     def transition_cue(self):
         self.ai.hp = self.ai.max_hp
 
+        for move in self.speler.moves:
+            move[1] = move[2]
+
 
     def update(self):
         if self.staat == 0:
@@ -78,6 +81,7 @@ class FightState(State):
                     self.speler.hp = self.speler.max_hp
             if Globals.inputManager.is_key_down(pygame.K_r):
                 Globals.stateMachine.start_transitie(FightState(self.speler, self.ai), 1.5)
+                warn("Gevecht reset triggered")
 
     def draw(self):
         self.speler.draw()
@@ -121,7 +125,7 @@ class FightState(State):
                 renderer.draw_text_centered("-", r, color=(75, 75, 75))
 
             if not self.buttons_made and move:
-                b = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, move[0])
+                b = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, move[0], i)
                 b.set_on_click(self.move_click)
                 self.buttons.append(b)
 
@@ -134,6 +138,13 @@ class FightState(State):
             return
 
         info(btn.move.name)
+
+        if self.speler.moves[btn.index][1] <= 0:
+            info("Geen PP!")
+            return
+
+        self.speler.moves[btn.index][1] -= 1
+
         self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai)
         if self.ai.hp <= 0:
             info("speler wint")
