@@ -1,10 +1,10 @@
 import pygame.transform
 
-from src.pokemons.classes.pokemon import Pokemon
+from src.pokemons.classes.pokermon import Pokermon
 from src.pokemons.attacks.lick import Lick
 
 
-class Froggo(Pokemon):
+class Froggo(Pokermon):
     def __init__(self, x:int, y:int):
         super().__init__(x, y, "assets/Evil_frog.png")
 
