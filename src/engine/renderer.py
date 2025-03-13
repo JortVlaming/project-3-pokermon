@@ -55,11 +55,43 @@ class Renderer:
         kwargs["centered"] = True
         self.draw_text(text, x, y, **kwargs)
 
+    def draw_text_centered(self, text: str, rect: pygame.Rect = None, **kwargs):
+        """
+        Draws text centered within a given pygame.Rect (or the whole screen if None),
+        automatically scaling it to fit.
+
+        :param text: The text to render
+        :param rect: The pygame.Rect defining the area (defaults to the whole screen)
+        :param kwargs: Additional parameters (e.g., font, color)
+        """
+        if rect is None:
+            rect = self.screen.get_rect()  # Default to the entire screen
+
+        font = kwargs.get("font", pygame.font.Font(None, 36))  # Default font
+        max_width, max_height = rect.width, rect.height
+
+        font_size = kwargs.get("start", 72)
+        while 10 < font_size:
+            test_font = pygame.font.Font(None, font_size)
+            text_width, text_height = test_font.size(text)
+            if text_width <= max_width and text_height <= max_height:
+                font = test_font
+                break
+            font_size -= 1
+
+        text_surface = font.render(text, True, kwargs.get("color", (255, 255, 255)))
+        x, y = rect.center
+        y += kwargs.get("y_offset", 0)
+        text_rect = text_surface.get_rect(center=(x,y))
+
+        self.screen.blit(text_surface, text_rect)
+
     def get_text_width(self, txt:str) -> int:
         return self.font.render(txt, False, (0, 0, 0, 0)).get_width()
 
     def draw_rect(self, color: str | Tuple[int, int, int], x:int, y:int, width: int, height: int, border_radius:int=0):
-        pygame.draw.rect(self.screen, color, pygame.Rect(x, y, width, height), border_radius=border_radius)
+        r = pygame.draw.rect(self.screen, color, pygame.Rect(x, y, width, height), border_radius=border_radius)
+        return r
 
     def draw_image(self, image: str | pygame.Surface, x:int, y:int, image_scale:int=1):
         if isinstance(image, str):
