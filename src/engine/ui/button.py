@@ -7,9 +7,9 @@ class Button:
         self.y = y
         self.click_width = click_width
         self.click_height = click_height
-        self.on_click: None | Callable[["Button"], None] = None
+        self.on_click: Callable[["Button"], None]|None = None
 
-    def set_on_click(self, function: None | Callable[["Button"], None]):
+    def set_on_click(self, function: Callable[["Button"], None]|None):
         self.on_click = function
 
     def click(self):

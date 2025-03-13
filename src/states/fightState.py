@@ -3,8 +3,10 @@ from typing import Tuple
 import pygame
 
 from src.engine.globals import Globals
-from src.engine.logger import debug
+from src.engine.logger import debug, info
 from src.engine.state.state import State
+
+from src.engine.ui.button import Button
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
 
@@ -26,6 +28,16 @@ def get_health_bar(base: int, max_value: int, scale: int) -> Tuple[int, Tuple[in
 
     return bar_length, color
 
+class MoveButton(Button):
+    def __init__(self, x: int, y: int, width: int, height: int, move: Attack):
+        super().__init__(x, y, width, height)
+
+        self.width = width
+        self.height = height
+        self.move = move
+
+    def draw(self):
+        pass
 
 class FightState(State):
     def __init__(self, speler_mon:Pokermon, ai_mon: Pokermon):
@@ -47,6 +59,8 @@ class FightState(State):
         self.staat = 0
         self.speler_aanval: Attack|None = None
         self.ai_aanval: Attack|None = None
+
+        self.buttons_made = False
 
 
     def update(self):
@@ -79,7 +93,7 @@ class FightState(State):
 
         x = 250
 
-        for i in range(4):
+        for i in range(0, 4):
             move = self.speler.moves[i] if i < len(self.speler.moves) else None
 
             if move:
@@ -90,4 +104,17 @@ class FightState(State):
                 r = renderer.draw_rect((100, 100, 100), x, renderer.screen.get_height()-125, 100, 100)
                 renderer.draw_text_centered("-", r, color=(75, 75, 75))
 
+            if not self.buttons_made and move:
+                b = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, move[0])
+                b.set_on_click(self.move_click)
+                self.buttons.append(b)
+
             x += 125
+
+        self.buttons_made = True
+
+    def move_click(self, btn:Button|MoveButton):
+        if not isinstance(btn, MoveButton):
+            return
+
+        info(btn.move.name)
