@@ -9,7 +9,7 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 
-class Froggo(Pokermon):
+class LLama(Pokermon):
     def __init__(self, x:int, y:int):
         super().__init__(x, y, "assets/lama.png")
 
