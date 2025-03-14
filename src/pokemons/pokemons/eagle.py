@@ -1,6 +1,7 @@
 ﻿import pygame.transform
 
 from src.pokemons.attacks.gun import Gun
+from src.pokemons.attacks.peck import Peck
 from src.pokemons.attacks.steelWing import SteelWing
 from src.pokemons.attacks.windCutter import WindCutter
 from src.pokemons.classes.pokermon import Pokermon
@@ -22,6 +23,7 @@ class Eagle(Pokermon):
             [Gun(), 10, 10],
             [WindCutter(), 10, 10],
             [SteelWing(), 10, 10],
+            [Peck(), 10, 10],
 
         ]
 
