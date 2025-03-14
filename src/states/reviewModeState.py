@@ -128,7 +128,7 @@ class ReviewModeState(State):
         renderer.draw_image(f"assets/spoeder.png", x, y, scale)
 
     def draw_turtles(self, renderer):
-        _x = 200
+        _x = 45
         x = _x
         y = 60
         gap = 270
@@ -136,12 +136,14 @@ class ReviewModeState(State):
         renderer.draw_image(f"assets/Donnatello.png", x, y, scale)
         x += gap
         renderer.draw_image(f"assets/Leonardo.png", x, y, scale)
+        x += gap
+        renderer.draw_image(f"assets/lama.png", x, y, scale)
 
         y += gap / 4 * 3
         x = _x
 
         renderer.draw_image(f"assets/Michelangelo.png", x, y, scale)
         x += gap
-
         renderer.draw_image(f"assets/Raphael.png", x, y, scale)
         x += gap
+        renderer.draw_image(f"assets/Energyzwordedwopper.png", x, y, scale)
