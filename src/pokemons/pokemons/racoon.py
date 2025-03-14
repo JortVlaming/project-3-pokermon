@@ -1,5 +1,6 @@
 ﻿import pygame.transform
 
+from src.pokemons.attacks.bite import Bite
 from src.pokemons.attacks.headbutt import Headbutt
 from src.pokemons.classes.pokermon import Pokermon
 
@@ -17,7 +18,7 @@ class Racoon(Pokermon):
 
         self.moves = [
             [Headbutt(), 10, 10],
-            []
+            [Bite(), 10, 10],
 
         ]
 
