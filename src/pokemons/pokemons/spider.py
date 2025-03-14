@@ -2,6 +2,7 @@
 
 from src.pokemons.attacks.bugBite import BugBite
 from src.pokemons.attacks.firstImpression import FirstImpression
+from src.pokemons.attacks.lunge import Lunge
 from src.pokemons.classes.pokermon import Pokermon
 
 
@@ -18,6 +19,8 @@ class Spider(Pokermon):
         self.moves = [
             [BugBite(), 10, 10],
             [FirstImpression(), 10, 10],
+            [Lunge(), 10, 10],
+
 
         ]
 
