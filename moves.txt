@@ -26,3 +26,28 @@ Explosion (250)
 Tackle (40)
 Head smash (90)
 Headbutt (70)
+
+
+# Fox
+
+Bite
+Double Kick (60)
+Blade hat (80)
+hook stab (100)
+
+
+# Eagle
+
+Gun (90)
+Wind cutter (80)
+Steel wing (70)
+peck (35)
+
+
+
+# Snik (snake)
+
+Poison fang
+Bomb throw (90)
+Explosion
+Coil (70)
