@@ -1,14 +1,13 @@
 ﻿import pygame.transform
 
-from src.pokemons.classes.pokemon import Pokemon
-
 from src.pokemons.attacks.bombThrow import BombThrow
+from src.pokemons.attacks.coil import Coil
 from src.pokemons.attacks.explosion import Explosion
-from src.pokemons.attacks.lick import Lick
 from src.pokemons.attacks.poisonFang import PoisonFang
+from src.pokemons.classes.pokermon import Pokermon
 
 
-class Snake(Pokemon):
+class Snake(Pokermon):
     def __init__(self, x:int, y:int):
         super().__init__(x, y, "assets/snek.png")
 
@@ -21,7 +20,8 @@ class Snake(Pokemon):
         self.moves = [
             [PoisonFang(), 10, 10],
             [BombThrow(), 10, 10],
-            [Explosion(), 1, 1]
+            [Explosion(), 1, 1],
+            [Coil(), 10, 10],
 
         ]
 
