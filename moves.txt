@@ -51,3 +51,19 @@ Poison fang
 Bomb throw (90)
 Explosion
 Coil (70)
+
+
+# Whooper
+
+Mud-Slap (20)
+Energy stab (60)
+Mud bomb (65)
+Energy cut (90)
+
+
+# Llama
+
+Tackle
+Headbutt
+Missile (70)
+Double Kick
