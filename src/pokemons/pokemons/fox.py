@@ -1,6 +1,7 @@
 ﻿import pygame.transform
 
 from src.pokemons.attacks.bite import Bite
+from src.pokemons.attacks.doubleKick import DoubleKick
 from src.pokemons.classes.pokermon import Pokermon
 
 
@@ -17,8 +18,8 @@ class Fox(Pokermon):
 
         self.moves = [
 
-            [Bite(), 10, 10]
-
+            [Bite(), 10, 10],
+            [DoubleKick(), 10, 10],
 
         ]
 
