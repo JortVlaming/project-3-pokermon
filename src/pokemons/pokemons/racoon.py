@@ -1,7 +1,8 @@
 ﻿import pygame.transform
 
+from src.pokemons.attacks.headbutt import Headbutt
 from src.pokemons.classes.pokermon import Pokermon
-from src.pokemons.attacks.lick import Lick
+
 
 
 class Racoon(Pokermon):
@@ -14,6 +15,10 @@ class Racoon(Pokermon):
         self.speed = 110
         self.attack = 130
 
-        self.moves = [[Lick(), 10, 10]]
+        self.moves = [
+            [Headbutt(), 10, 10],
+            []
+
+        ]
 
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*2.5, self.image.get_height()*2.5))
