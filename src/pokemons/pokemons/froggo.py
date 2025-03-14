@@ -1,5 +1,6 @@
 import pygame.transform
 
+from src.pokemons.attacks.barbBarbrage import BarbBarrage
 from src.pokemons.attacks.bodySlam import BodySlam
 from src.pokemons.classes.pokermon import Pokermon
 from src.pokemons.attacks.lick import Lick
@@ -18,7 +19,8 @@ class Froggo(Pokermon):
         self.moves = [
             #class, pp, max_pp
             [Lick(), 10, 10],
-            [BodySlam(), 10, 10]
+            [BodySlam(), 10, 10],
+            [BarbBarrage(), 10, 10],
         ]
 
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*2.5, self.image.get_height()*2.5))
