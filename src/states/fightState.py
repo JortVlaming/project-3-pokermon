@@ -90,9 +90,12 @@ class FightState(State):
 
         renderer = Globals.renderer
 
+        mon_name_rect = renderer.draw_rect((0,0,0,0),20, renderer.screen.get_height()-130, 31*5, 30)
+
         renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
 
-        renderer.draw_text(self.speler.name, 20, renderer.screen.get_height()-130)
+
+        renderer.draw_text_centered(self.speler.name, mon_name_rect, alignment="left")
 
         length, color = get_health_bar(self.speler.hp, self.speler.max_hp, 31*5)
 
