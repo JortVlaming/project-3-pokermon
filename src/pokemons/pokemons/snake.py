@@ -1,6 +1,9 @@
 ﻿import pygame.transform
 
 from src.pokemons.classes.pokemon import Pokemon
+
+from src.pokemons.attacks.bombThrow import BombThrow
+from src.pokemons.attacks.explosion import Explosion
 from src.pokemons.attacks.lick import Lick
 from src.pokemons.attacks.poisonFang import PoisonFang
 
@@ -16,8 +19,9 @@ class Snake(Pokemon):
         self.attack = 170
 
         self.moves = [
-            [(Lick(), 10, 10)],
             [PoisonFang(), 10, 10],
+            [BombThrow(), 10, 10],
+            [Explosion(), 1, 1]
 
         ]
 
