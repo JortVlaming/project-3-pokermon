@@ -90,6 +90,7 @@ class FightState(State):
 
         renderer = Globals.renderer
 
+        # speler stuff
         mon_name_rect = renderer.draw_rect((0,0,0,0),20, renderer.screen.get_height()-130, 31*5, 30)
 
         renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
@@ -104,7 +105,8 @@ class FightState(State):
 
         renderer.draw_text(f"{self.speler.hp}/{self.speler.max_hp}", 15, renderer.screen.get_height()-47, size=32)
 
-        r = renderer.draw_rect((150, 150, 150), self.ai.x-275, self.ai.y, 255, 100, 10)
+        # ai stuff
+        r = renderer.draw_rect((150, 150, 150), self.ai.x-275, 50, 255, 100, 10)
 
         renderer.draw_text_centered(self.ai.name, r, start=48, y_offset=-15, alignment="left", x_offset=10)
 
@@ -141,6 +143,7 @@ class FightState(State):
         if not isinstance(btn, MoveButton):
             return
 
+        from src.states.mainMenuState import MainMenuState
         if self.speler.speed > self.ai.speed:
             info(btn.move.name)
 
@@ -154,6 +157,7 @@ class FightState(State):
             if self.ai.hp <= 0:
                 info("speler wint")
                 self.ai.hp = 0
+                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
                 return
 
             move = random.choice(self.ai.moves)
@@ -165,6 +169,7 @@ class FightState(State):
             if self.speler.hp <= 0:
                 self.speler.hp = 0
                 warn("Speler is dood")
+                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
                 return
         else:
             warn("AI Moved eerst")
@@ -178,6 +183,7 @@ class FightState(State):
             if self.speler.hp <= 0:
                 self.speler.hp = 0
                 warn("Speler is dood")
+                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
                 return
 
             info(btn.move.name)
@@ -192,4 +198,5 @@ class FightState(State):
             if self.ai.hp <= 0:
                 info("speler wint")
                 self.ai.hp = 0
+                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
                 return
