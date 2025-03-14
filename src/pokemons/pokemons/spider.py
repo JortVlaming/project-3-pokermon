@@ -3,6 +3,7 @@
 from src.pokemons.attacks.bugBite import BugBite
 from src.pokemons.attacks.firstImpression import FirstImpression
 from src.pokemons.attacks.lunge import Lunge
+from src.pokemons.attacks.poisonFang import PoisonFang
 from src.pokemons.classes.pokermon import Pokermon
 
 
@@ -20,7 +21,7 @@ class Spider(Pokermon):
             [BugBite(), 10, 10],
             [FirstImpression(), 10, 10],
             [Lunge(), 10, 10],
-
+            [PoisonFang(), 10, 10],
 
         ]
 
