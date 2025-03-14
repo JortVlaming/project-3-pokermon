@@ -1,10 +1,11 @@
 ﻿import pygame.transform
 
-from src.pokemons.classes.pokemon import Pokemon
-from src.pokemons.attacks.lick import Lick
+from src.pokemons.attacks.bite import Bite
+from src.pokemons.classes.pokermon import Pokermon
 
 
-class Fox(Pokemon):
+
+class Fox(Pokermon):
     def __init__(self, x:int, y:int):
         super().__init__(x, y, "assets/Foxie.png")
 
@@ -14,6 +15,13 @@ class Fox(Pokemon):
         self.speed = 170
         self.attack = 160
 
-        self.moves = [(Lick(), 10, 10)]
+        self.moves = [
+
+            [Bite(), 10, 10]
+
+
+        ]
+
+
 
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*2.5, self.image.get_height()*2.5))
