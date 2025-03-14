@@ -1,7 +1,8 @@
 ﻿import pygame.transform
 
+from src.pokemons.attacks.bugBite import BugBite
+from src.pokemons.attacks.firstImpression import FirstImpression
 from src.pokemons.classes.pokermon import Pokermon
-from src.pokemons.attacks.lick import Lick
 
 
 class Spider(Pokermon):
@@ -14,6 +15,10 @@ class Spider(Pokermon):
         self.speed = 90
         self.attack = 150
 
-        self.moves = [[Lick(), 10, 10]]
+        self.moves = [
+            [BugBite(), 10, 10],
+            [FirstImpression(), 10, 10],
+
+        ]
 
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*2.5, self.image.get_height()*2.5))
