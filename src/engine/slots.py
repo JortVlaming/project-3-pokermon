@@ -25,10 +25,7 @@ def win_amount(rolling):
     global balance
     global winning
     global bet
-    if rolling[0] == "cherry" or rolling[1] == "cherry" or rolling[2] == "cherry":
-        print(f"You get: {bet} back and your balance is still : {balance}")
-        return balance, winning
-    if rolling[0] == "cherry" and rolling[1] == "cherry" or rolling[2] == "cherry" and rolling[3] == "cherry" or rolling[0] == "cherry" and rolling[2] == "cherry" :
+    if rolling[0] == "cherry" and rolling[1] == "cherry" or rolling[1] == "cherry" and rolling[2] == "cherry" or rolling[0] == "cherry" and rolling[2] == "cherry" :
         winning = bet * 2
         balance += winning
         print(f"You won: {winning} and your balance is now: {balance}")
@@ -67,20 +64,21 @@ def main():
     global balance
     print("Welcome to the Slots Game!")
     print(f"Youre balance is now: {balance}")
+    #checkt of je nog wel kan inzetten of niet meer inzet dan dat je kan
     while balance > 0:
         bet = int_input("Enter bet: ")
         if bet == 0:
             print("You cant bet nothing.")
-            break
+            continue
         if bet > balance:
             print("Sorry, you don't have enough money!")
-            break
-
+            continue
+        #spint de slots en en roept de checker aan
         input("press enter to spin the slots")
         rols = rolling()
         print(f"slot 1: {rols[0]}, slot 2: {rols[1]}, slot 3: {rols[2]}")
         win_amount(rolling())
-
+        #vraagt of je opnieuw wilt of niet en of dat wel kan
         play_again = input("Do you want to play again? (yes/no): ").lower()
         if play_again != "yes":
             print("Thanks for playing! Goodbye!")

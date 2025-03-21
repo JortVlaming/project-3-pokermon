@@ -92,7 +92,8 @@ class FightState(State):
         renderer = Globals.renderer
 
         # speler stuff
-        mon_name_rect = renderer.draw_rect((0,0,0,0),20, renderer.screen.get_height()-130, 31*5, 30)
+        mon_name_rect = renderer.draw_rect((10,10,10,0),20, renderer.screen.get_height()-130, 31*5, 30)
+        mon_health_rect = renderer.draw_rect((10,10,10,0),20, renderer.screen.get_height()-47, 31*5, 30)
 
         renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
 
@@ -104,9 +105,10 @@ class FightState(State):
         renderer.draw_rect(color, 15, renderer.screen.get_height()-75, length, 20)
         renderer.draw_image("assets/healthbar.png", 15, renderer.screen.get_height()-80, 5)
 
-        renderer.draw_text(f"{self.speler.hp}/{self.speler.max_hp}", 15, renderer.screen.get_height()-47, size=32)
+        renderer.draw_text_centered(f"{self.speler.hp}/{self.speler.max_hp}", mon_health_rect, alignment="left", size=32)
 
         # ai stuff
+        r2 = renderer.draw_rect((0,0,0,0), self.ai.x-255+150, 50+100-45, 80, 30)
         r = renderer.draw_rect((150, 150, 150), self.ai.x-275, 50, 255, 100, 10)
 
         renderer.draw_text_centered(self.ai.name, r, start=48, y_offset=-15, alignment="left", x_offset=10)
@@ -116,7 +118,8 @@ class FightState(State):
         renderer.draw_rect(ai_color, r.x+10, r.y+r.height-40, ai_length, 20)
         renderer.draw_image("assets/healthbar.png", r.x+10, r.y+r.height-45, 5)
 
-        renderer.draw_text(f"{self.ai.hp}/{self.ai.max_hp}", r.x+10+(31*5), r.y+r.height-50+10, size=32)
+
+        renderer.draw_text_centered(f"{self.ai.hp}/{self.ai.max_hp}", r2, start=48, alignment="left", color=(255, 255, 255))
 
         x = 250
 
