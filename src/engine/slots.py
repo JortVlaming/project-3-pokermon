@@ -67,7 +67,7 @@ def main():
     #checkt of je nog wel kan inzetten of niet meer inzet dan dat je kan
     while balance > 0:
         bet = int_input("Enter bet: ")
-        if bet == 0:
+        if bet <= 0:
             print("You cant bet nothing.")
             continue
         if bet > balance:
