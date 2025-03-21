@@ -66,11 +66,15 @@ def main():
     global bet
     global balance
     print("Welcome to the Slots Game!")
-    print(f"youre balance is now: {balance}")
-    while balance > 1:
+    print(f"Youre balance is now: {balance}")
+    while balance > 0:
         bet = int_input("Enter bet: ")
+        if bet == 0:
+            print("You cant bet nothing.")
+            break
         if bet > balance:
             print("Sorry, you don't have enough money!")
+            break
 
         input("press enter to spin the slots")
         rols = rolling()
