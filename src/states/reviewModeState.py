@@ -32,7 +32,7 @@ class ReviewModeState(State):
             w = Globals.renderer.get_text_width(txt)
             self.nextButton = TextButton(int(Globals.renderer.screen.get_width() / 2 - w / 2),
                                          Globals.renderer.screen.get_height() - 50, w, 45, (150, 150, 150), txt)
-            mons = [Eagle(), Froggo(0, 0), Racoon(0, 0), Spider(), Turtles()]
+            mons = [Eagle(), Froggo(), Racoon(), Spider(), Turtles()]
             speler = random.choice(mons)
             mons.remove(speler)
             ai = random.choice(mons)
