@@ -71,10 +71,10 @@ def main():
         bet = int_input("Enter bet: ")
         if bet == 0:
             print("You cant bet nothing.")
-            break
+            continue
         if bet > balance:
             print("Sorry, you don't have enough money!")
-            break
+            continue
 
         input("press enter to spin the slots")
         rols = rolling()
