@@ -8,8 +8,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Snake(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/snek.png")
+    def __init__(self):
+        super().__init__("assets/snek.png")
 
         self.name = "Snek"
         self.max_hp = 100

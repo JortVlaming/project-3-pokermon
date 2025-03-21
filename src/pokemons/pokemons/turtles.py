@@ -11,9 +11,9 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Turtles(Pokermon):
-    def __init__(self, x:int, y:int):
+    def __init__(self):
         naam = random.choice(["Donnatello", "Leonardo", "Michelangelo", "Raphael"])
-        super().__init__(x, y, f"assets/{naam}.png")
+        super().__init__(f"assets/{naam}.png")
 
         self.name = naam
         self.max_hp = 100

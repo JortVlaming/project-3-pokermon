@@ -10,8 +10,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Fox(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/Foxie.png")
+    def __init__(self):
+        super().__init__("assets/Foxie.png")
 
         self.name = "Foxie"
         self.max_hp = 70

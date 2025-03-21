@@ -23,7 +23,7 @@ class MainMenuState(State):
         w = Globals.renderer.get_text_width(txt)
         reviewButton = TextButton(10, Globals.renderer.screen.get_height()-70, w+20, 60, "White", txt, text_color="Black")
 
-        mons = [Eagle(0, 0), Froggo(0, 0), Racoon(0, 0), Spider(0, 0), Turtles(0, 0)]
+        mons = [Eagle(), Froggo(), Racoon(), Spider(), Turtles()]
         speler = random.choice(mons)
         mons.remove(speler)
         ai = random.choice(mons)

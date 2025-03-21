@@ -15,7 +15,9 @@ class TestState(State):
     square = Square(100, 100, "Blue", 100, 100)
     sprite = Sprite(300, 300, "assets/test.jpg")
 
-    froggo = Froggo(100, 400)
+    froggo = Froggo()
+    froggo.x = 100
+    froggo.y = 400
 
     render_test = Square(0, 300, "Yellow", 0, 25)
     test_width = 0

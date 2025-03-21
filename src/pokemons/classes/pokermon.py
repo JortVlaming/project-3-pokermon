@@ -11,5 +11,5 @@ class Pokermon(Sprite):
     #       [(class, pp, max)]
     moves = []
 
-    def __init__(self, x:int, y:int, image:str):
-        super().__init__(x, y, image)
+    def __init__(self, image: str):
+        super().__init__(0, 0, image)

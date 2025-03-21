@@ -8,8 +8,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Spider(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/spoeder.png")
+    def __init__(self):
+        super().__init__("assets/spoeder.png")
 
         self.name = "Spoeder"
         self.max_hp = 90

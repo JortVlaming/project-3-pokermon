@@ -9,8 +9,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Racoon(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/Racoon.png")
+    def __init__(self):
+        super().__init__("assets/Racoon.png")
 
         self.name = "Trash Panda"
         self.max_hp = 80

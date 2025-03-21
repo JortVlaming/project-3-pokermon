@@ -9,8 +9,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class Eagle(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/AREND.png")
+    def __init__(self):
+        super().__init__("assets/AREND.png")
 
         self.name = "'MERICA"
         self.max_hp = 80

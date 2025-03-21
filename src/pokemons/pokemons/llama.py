@@ -10,8 +10,8 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 class LLama(Pokermon):
-    def __init__(self, x:int, y:int):
-        super().__init__(x, y, "assets/lama.png")
+    def __init__(self):
+        super().__init__("assets/lama.png")
 
         self.name = "Llllama"
         self.max_hp = 70
