@@ -1,6 +1,8 @@
 # Renderer
 Documentatie voor de renderer van Pokermon
 
+---
+
 ## Functies
 
 ### set_font
