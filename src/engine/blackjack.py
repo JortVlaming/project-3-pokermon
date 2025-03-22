@@ -50,6 +50,9 @@ while True:
     if player_score == 21:
         print("Player wins (Player has blackjack)")
         break
+    elif player_score > 21:
+        print("Dealer wins (Player exceeds 21)")
+        break
     dealer_score = hand_val(dealer_card)
     print("\n")
     choice = ""
