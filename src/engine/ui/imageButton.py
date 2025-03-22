@@ -1,6 +1,7 @@
 import pygame
 
 from src.engine.globals import Globals
+from src.engine.renderer import Renderer
 from src.engine.ui.button import Button
 
 
@@ -15,5 +16,5 @@ class ImageButton(Button):
         super().__init__(x, y, self.image.get_width(), self.image.get_height())
 
 
-    def draw(self):
-        Globals.get_window().blit(self.image, (self.x, self.y))
+    def draw(self, renderer: Renderer):
+        renderer.draw_image(self.image, self.x, self.y)

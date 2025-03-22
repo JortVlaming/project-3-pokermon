@@ -1,7 +1,9 @@
-﻿from src.engine.logger import info
-from src.engine.state.state import State
+﻿from src.engine.inputManager import InputManager
+from src.engine.logger import info
+
 
 class StateMachine:
+    from src.engine.state.state import State
     huidige_staat: State | None = None
     transitie_staat: State | None = None
     transitie_tijd = 0.5  # Tijd van de transitie in seconden
@@ -24,7 +26,7 @@ class StateMachine:
         self.huidige_staat.do_process_buttons = False
         info(f"Started transition from {type(self.huidige_staat).__name__} to {type(nieuwe_staat).__name__}")
 
-    def update(self):
+    def update(self, inputManager: InputManager):
         if self.transitie:
             # Fade-out fase
             if self.transitie_opaciteit < 255 and self.huidige_staat is not None and self.transitie_stand == 0:
@@ -47,15 +49,15 @@ class StateMachine:
                 self.transitie_stand = 0
 
         if self.huidige_staat is not None and not self.transitie:
-            self.huidige_staat.update()
+            self.huidige_staat.update(inputManager, self)
             if self.huidige_staat.do_process_buttons:
-                self.huidige_staat.process_buttons()
+                self.huidige_staat.process_buttons(inputManager)
 
-    def draw(self):
+    def draw(self, renderer):
         if self.huidige_staat is not None:
-            self.huidige_staat.draw()
+            self.huidige_staat.draw(renderer)
             for btn in self.huidige_staat.buttons:
-                btn.draw()
+                btn.draw(renderer)
 
         if self.transitie_opaciteit > 0:
             # Teken een zwart vlak met de juiste transparantie

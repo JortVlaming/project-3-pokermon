@@ -2,6 +2,9 @@
 
 import pygame
 
+from src.engine.inputManager import InputManager
+
+
 class State:
     buttons = []
     do_process_buttons = True
@@ -10,18 +13,17 @@ class State:
     def __init__(self):
         pass
 
-    def update(self):
+    def update(self, inputManager:InputManager, stateMachine):
         pass
 
-    def draw(self):
+    def draw(self, renderer):
         pass
 
     def transition_cue(self):
         pass
     
-    def process_buttons(self):
-        from src.engine.globals import Globals
-        if Globals.inputManager.is_button_down(pygame.BUTTON_LEFT):
+    def process_buttons(self, inputManager: InputManager):
+        if inputManager.is_button_down(pygame.BUTTON_LEFT):
             mX, mY = pygame.mouse.get_pos()
             for btn in self.buttons:
                 if btn.is_in_bounds(mX, mY):
