@@ -89,15 +89,12 @@ Hieronder kan je een voorbeeld zien van een functionele `State`.
 
 Deze `State` heeft een zwarte achtergrond met een wit vierkant en checked of de spatie balk is ingedrukt
 
-(**TODO update met Globals onafhankelijk systeem**)
-
 ```python
 from pygame import K_SPACE
 
-from src.engine.globals import Globals
 from src.engine.logger import info
 from src.engine.state.state import State
-
+from src.engine.inputManager import InputManager
 
 class ExampleState(State):
     def __init__(self):
@@ -105,10 +102,10 @@ class ExampleState(State):
         
         self.background_color = "Black"
     
-    def update(self):
-        if Globals.inputManager.is_key_held(K_SPACE):
+    def update(self, inputManager:InputManager, stateMachine):
+        if inputManager.is_key_held(K_SPACE):
             info("Space bar is pressed")
     
-    def draw(self):
-        Globals.renderer.draw_rect("White", 100, 100, 100, 100)
+    def draw(self, renderer):
+        renderer.draw_rect("White", 100, 100, 100, 100)
 ```
