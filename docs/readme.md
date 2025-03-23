@@ -7,4 +7,6 @@ In deze folder vind je documentatie voor de verschillende systemen in het pokerm
     <a href="renderer.md">De renderer</a>
     <br>
     <a href="states.md">States en de StateMachine</a>
+    <br>
+    <a href="buttons.md">Buttons</a>
 </div>

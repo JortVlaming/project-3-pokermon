@@ -1,6 +1,5 @@
 import pygame
 
-from src.engine.globals import Globals
 from src.engine.renderer import Renderer
 from src.engine.ui.button import Button
 
