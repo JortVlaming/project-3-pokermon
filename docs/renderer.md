@@ -1,5 +1,9 @@
 # Renderer
-Documentatie voor de renderer van Pokermon
+Documentatie voor de renderer van Pokermon.
+
+Om gebruik te maken van de renderer moet je een `state` hebben met een `draw` functie.
+Deze functie ontvangt elke frame een renderer variabel dat je kan gebruiken om te renderen.
+Voor een voorbeeld zie [States (Voorbeeld)](states.md#voorbeeld-state)
 
 ---
 
