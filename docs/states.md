@@ -23,6 +23,10 @@ De statemachine is verantwoordelijk voor bijhouden welke state momenteel actief 
 
 De statemachine voor pokermon heeft 3 taken: de huidige staat bijhouden, zorgen dat de states de benodigde informatie hebben en de transitie tussen states aansturen.
 
+Om gebruik te maken van de StateMachine moet je een `state` hebben met een `update` functie.
+Deze functie ontvangt elke frame een stateMachine variabel dat je kan gebruiken om de stateMachine te gebruiken.
+Voor een voorbeeld zie [States (Voorbeeld)](#voorbeeld-state)
+
 ## Functies
 
 ---
