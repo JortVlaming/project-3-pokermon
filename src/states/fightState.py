@@ -3,8 +3,8 @@ from typing import Tuple
 
 import pygame
 
-from src.engine.globals import Globals
 from src.engine.logger import info, warn
+from src.engine.renderer import Renderer
 from src.engine.state.state import State
 from src.engine.ui.button import Button
 from src.pokemons.classes.attack import Attack
@@ -37,19 +37,19 @@ class MoveButton(Button):
         self.move = move
         self.index = index
 
-    def draw(self):
+    def draw(self, renderer: Renderer):
         pass
 
 class FightState(State):
-    def __init__(self, speler_mon:Pokermon, ai_mon: Pokermon):
+    def __init__(self, speler_mon:Pokermon, ai_mon: Pokermon, renderer: Renderer):
         super().__init__()
 
         self.speler = speler_mon
         self.speler.x = 150
-        self.speler.y = Globals.renderer.screen.get_height() - self.speler.image.get_height() - 150
+        self.speler.y = renderer.screen.get_height() - self.speler.image.get_height() - 150
 
         self.ai = ai_mon
-        self.ai.x = Globals.renderer.screen.get_width() - self.ai.image.get_width() - 100
+        self.ai.x = renderer.screen.get_width() - self.ai.image.get_width() - 100
         self.ai.y = 200 - self.ai.image.get_height()
 
         self.staat = 0
@@ -70,25 +70,26 @@ class FightState(State):
             move[1] = move[2]
 
 
-    def update(self):
+    def update(self, inputManager, stateMachine):
+        self.stateMachine = stateMachine
         if self.staat == 0:
-            if Globals.inputManager.is_key_held(pygame.K_p):
+            if inputManager.is_key_held(pygame.K_p):
                 self.speler.hp -= 1
                 if self.speler.hp < 0:
                     self.speler.hp = 0
-            if Globals.inputManager.is_key_held(pygame.K_o):
+            if inputManager.is_key_held(pygame.K_o):
                 self.speler.hp += 1
                 if self.speler.hp > self.speler.max_hp:
                     self.speler.hp = self.speler.max_hp
-            if Globals.inputManager.is_key_down(pygame.K_r):
-                Globals.stateMachine.start_transitie(FightState(self.speler, self.ai), 1.5)
+            if inputManager.is_key_down(pygame.K_r):
+                stateMachine.start_transitie(FightState(self.speler, self.ai), 1.5)
                 warn("Gevecht reset triggered")
 
-    def draw(self):
-        self.speler.draw()
-        self.ai.draw()
+    def draw(self, renderer):
+        self.renderer = renderer
 
-        renderer = Globals.renderer
+        self.speler.draw(renderer)
+        self.ai.draw(renderer)
 
         # speler stuff
         mon_name_rect = renderer.draw_rect((10,10,10,0),20, renderer.screen.get_height()-130, 31*5, 30)
@@ -146,6 +147,8 @@ class FightState(State):
         if not isinstance(btn, MoveButton):
             return
 
+        stateMachine = self.stateMachine
+
         from src.states.mainMenuState import MainMenuState
         if self.speler.speed > self.ai.speed:
             info(btn.move.name)
@@ -160,7 +163,7 @@ class FightState(State):
             if self.ai.hp <= 0:
                 info("speler wint")
                 self.ai.hp = 0
-                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
+                stateMachine.start_transitie(MainMenuState(self.renderer, self.stateMachine), 2.5)
                 return
 
             move = random.choice(self.ai.moves)
@@ -172,7 +175,7 @@ class FightState(State):
             if self.speler.hp <= 0:
                 self.speler.hp = 0
                 warn("Speler is dood")
-                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
+                stateMachine.start_transitie(MainMenuState(self.renderer, self.stateMachine), 2.5)
                 return
         else:
             warn("AI Moved eerst")
@@ -186,7 +189,7 @@ class FightState(State):
             if self.speler.hp <= 0:
                 self.speler.hp = 0
                 warn("Speler is dood")
-                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
+                stateMachine.start_transitie(MainMenuState(self.renderer, self.stateMachine), 2.5)
                 return
 
             info(btn.move.name)
@@ -201,5 +204,5 @@ class FightState(State):
             if self.ai.hp <= 0:
                 info("speler wint")
                 self.ai.hp = 0
-                Globals.stateMachine.start_transitie(MainMenuState(), 2.5)
+                stateMachine.start_transitie(MainMenuState(self.renderer, self.stateMachine), 2.5)
                 return

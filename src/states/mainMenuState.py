@@ -1,6 +1,8 @@
 import random
 
+from src.engine.renderer import Renderer
 from src.engine.state.state import State
+from src.engine.state.stateMachine import StateMachine
 from src.engine.ui.textButton import TextButton
 from src.pokemons.pokemons.eagle import Eagle
 from src.pokemons.pokemons.froggo import Froggo
@@ -12,28 +14,26 @@ from src.states.reviewModeState import ReviewModeState
 
 
 class MainMenuState(State):
-    def __init__(self):
+    def __init__(self, renderer: Renderer, stateMachine: StateMachine):
         super().__init__()
 
-        from src.engine.globals import Globals
         txt = "Play"
-        w = Globals.renderer.get_text_width(txt)
-        startButton = TextButton(int(Globals.renderer.screen.get_width()/2-w/2), Globals.renderer.screen.get_height()-120, w+20, 60, "White", txt, text_color="Black")
+        w = renderer.get_text_width(txt)
+        startButton = TextButton(int(renderer.screen.get_width()/2-w/2), renderer.screen.get_height()-120, w+20, 60, "White", txt, text_color="Black")
         txt = "Review"
-        w = Globals.renderer.get_text_width(txt)
-        reviewButton = TextButton(10, Globals.renderer.screen.get_height()-70, w+20, 60, "White", txt, text_color="Black")
+        w = renderer.get_text_width(txt)
+        reviewButton = TextButton(10, renderer.screen.get_height()-70, w+20, 60, "White", txt, text_color="Black")
 
         mons = [Eagle(), Froggo(), Racoon(), Spider(), Turtles()]
         speler = random.choice(mons)
         mons.remove(speler)
         ai = random.choice(mons)
-        startButton.set_on_click(lambda button : Globals.stateMachine.start_transitie(FightState(speler, ai), 1.5))
-        reviewButton.set_on_click(lambda button : Globals.stateMachine.start_transitie(ReviewModeState()))
+        startButton.set_on_click(lambda button : stateMachine.start_transitie(FightState(speler, ai, renderer), 1.5))
+        reviewButton.set_on_click(lambda button : stateMachine.start_transitie(ReviewModeState(renderer, stateMachine)))
 
         self.buttons.append(startButton)
         self.buttons.append(reviewButton)
         self.background_color = (0, 205, 205)
 
-    def draw(self):
-        from src.engine.globals import Globals
-        Globals.renderer.draw_text_x_centered("Pokermon", 120, color="Black", size=96)
+    def draw(self, renderer):
+        renderer.draw_text_x_centered("Pokermon", 120, color="Black", size=96)

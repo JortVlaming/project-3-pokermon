@@ -1,7 +1,9 @@
-from src.engine.objects.sprite import Sprite
+import pygame.image
+
+from src.engine.renderer import Renderer
 
 
-class Pokermon(Sprite):
+class Pokermon:
     name:str = ""
     hp:int = 0
     max_hp:int = 0
@@ -12,4 +14,10 @@ class Pokermon(Sprite):
     moves = []
 
     def __init__(self, image: str):
-        super().__init__(0, 0, image)
+        img = pygame.image.load(image)
+        self.image = img
+        self.x = 0
+        self.y = 0
+
+    def draw(self, renderer: Renderer):
+        renderer.draw_image(self.image, self.x, self.y)

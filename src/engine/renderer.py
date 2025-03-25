@@ -3,6 +3,7 @@ from typing import Tuple
 import pygame
 
 from src.engine.logger import verbose
+from src.engine.state.stateMachine import StateMachine
 
 
 class Renderer:
@@ -30,10 +31,9 @@ class Renderer:
         """
         self.text_color = color
 
-    def start_frame(self):
+    def start_frame(self, stateMachine: StateMachine):
         verbose("[renderer] started a frame")
-        from src.engine.globals import Globals
-        huidige = Globals.stateMachine.huidige_staat
+        huidige = stateMachine.huidige_staat
         if not huidige:
             self.screen.fill((255, 0, 255))
         else:
