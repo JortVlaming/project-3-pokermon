@@ -32,31 +32,31 @@ def win_amount(rolling):
         print(f"You won: {winning} and your balance is now: {balance}")
         return balance, winning, total
     if rolling[0] == "cherry" and rolling[1] == "cherry" and rolling[2] == "cherry":
-        winning = bet * 3
-        balance += winning
-        total += winning
-        print(f"You won: {winning} and your balance is now: {balance}")
-        return balance, winning, total
-    if rolling[0] == "lemon" and rolling[1] == "lemon" and rolling[2] == "lemon":
-        winning = bet * 4
-        balance += winning
-        total += winning
-        print(f"You won: {winning} and your balance is now: {balance}")
-        return balance, winning, total
-    if rolling[0] == "grapes" and rolling[1] == "grapes" and rolling[2] == "grapes":
         winning = bet * 5
         balance += winning
         total += winning
         print(f"You won: {winning} and your balance is now: {balance}")
         return balance, winning, total
+    if rolling[0] == "lemon" and rolling[1] == "lemon" and rolling[2] == "lemon":
+        winning = bet * 10
+        balance += winning
+        total += winning
+        print(f"You won: {winning} and your balance is now: {balance}")
+        return balance, winning, total
+    if rolling[0] == "grapes" and rolling[1] == "grapes" and rolling[2] == "grapes":
+        winning = bet * 15
+        balance += winning
+        total += winning
+        print(f"You won: {winning} and your balance is now: {balance}")
+        return balance, winning, total
     if rolling[0] == "watermelon" and rolling[1] == "watermelon" and rolling[2] == "watermelon":
-        winning = bet * 6
+        winning = bet * 20
         balance += winning
         total += winning
         print(f"You won: {winning} and your balance is now: {balance}")
         return balance, winning, total
     if rolling[0] == "seven" and rolling[1] == "seven" and rolling[2] == "seven":
-        winning = bet * 7
+        winning = bet * 30
         balance += winning
         total += winning
         return balance, winning, total
