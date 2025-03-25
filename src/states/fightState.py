@@ -7,6 +7,7 @@ from src.engine.logger import info, warn
 from src.engine.renderer import Renderer
 from src.engine.state.state import State
 from src.engine.ui.button import Button
+from src.pokemons.attacks.explosion import Explosion
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
 
@@ -158,6 +159,9 @@ class FightState(State):
                 return
 
             self.speler.moves[btn.index][1] -= 1
+
+            if isinstance(self.speler.moves[btn.index][1], Explosion):
+                self.speler.hp = 0
 
             self.ai.hp -= btn.move.calculate_damage(self.speler, self.ai, True)
             if self.ai.hp <= 0:
