@@ -1,6 +1,7 @@
 import random
 
 from src.engine.renderer import Renderer
+from src.engine.slots import SlotsState
 from src.engine.state.state import State
 from src.engine.state.stateMachine import StateMachine
 from src.engine.ui.textButton import TextButton
@@ -29,6 +30,7 @@ class MainMenuState(State):
         mons.remove(speler)
         ai = random.choice(mons)
         startButton.set_on_click(lambda button : stateMachine.start_transitie(FightState(speler, ai, renderer), 1.5))
+#        startButton.set_on_click(lambda button : stateMachine.start_transitie(SlotsState()))
         reviewButton.set_on_click(lambda button : stateMachine.start_transitie(ReviewModeState(renderer, stateMachine)))
 
         self.buttons.append(startButton)
