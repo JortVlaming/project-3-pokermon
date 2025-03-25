@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 import pygame
 
@@ -154,3 +154,42 @@ class Renderer:
             image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
 
         self.screen.blit(image, (x, y))
+
+    def draw_image_centered(self, image: Union[str, pygame.Surface], rect: pygame.Rect = None, image_scale:int=1, **kwargs):
+        """
+        Draws an image centered within a given pygame.Rect (or the whole screen if None),
+        with optional alignment and offsets.
+
+        :param image: Path to the image file or a preloaded pygame.Surface
+        :param rect: The pygame.Rect defining the area (defaults to the whole screen)
+        :param kwargs: Additional parameters:
+                       - alignment: "center" (default), "left", or "right"
+                       - x_offset: Horizontal offset
+                       - y_offset: Vertical offset
+        """
+        if rect is None:
+            rect = self.screen.get_rect()  # Default to the entire screen
+
+        if not isinstance(image, pygame.Surface):
+            image = pygame.image.load(image)
+
+        image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
+
+        x, y = rect.center
+        img_width, img_height = image.get_size()
+
+        # Apply alignment
+        alignment = kwargs.get("alignment", "center")
+        if alignment == "left":
+            x = rect.left + img_width / 2  # Align left
+        elif alignment == "right":
+            x = rect.right - img_width / 2  # Align right
+
+        # Apply offsets
+        x += kwargs.get("x_offset", 0)
+        y += kwargs.get("y_offset", 0)
+
+        # Position image
+        image_rect = image.get_rect(center=(x, y))
+        self.screen.blit(image, image_rect)
+
