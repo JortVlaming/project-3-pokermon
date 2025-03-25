@@ -13,7 +13,7 @@ total = 0
 
 
 # symbolen die gerolt kunnen worden
-symbols = ["cherry", "lemon", "grapes", "watermelon", "seven"]
+symbols = ["cherry","cherry","lemon","grapes","watermelon","seven"]
 
 # het rollen van de drie symbolen die mogelijk zijn
 def rolling():
@@ -147,7 +147,7 @@ class SlotsState(State):
         if self.roll_results[2] != "nothing":
             renderer.draw_image_centered(f"assets/{self.roll_results[2]}.png", s3, 1.6)
 
-        s = f"Balance: {self.win_results[0]}, Winnings: {self.win_results[1]}, Total Winnings: {self.win_results[2]}"
+        s = f"Balance: {self.win_results[0]}, Won: {self.win_results[1]}, Total Winnings: {self.win_results[2]}"
         renderer.draw_text_x_centered(s, 30, size=30)
         renderer.draw_text_x_centered(f"Bet: {str(bet)}", 80, size=30)
         renderer.draw_text("a = all in.", 50, 80, size=30,)
