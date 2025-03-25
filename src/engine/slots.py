@@ -153,4 +153,3 @@ class SlotsState(State):
         renderer.draw_text("a = all in.", 50, 80, size=30,)
         renderer.draw_text("arrows = higher/lower bet.", 133, 100, size=30)
         renderer.draw_text("space = spin.", 70, 120, size=30)
-        renderer.draw_
