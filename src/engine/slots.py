@@ -7,7 +7,7 @@ bet = 0
 
 
 # symbolen die gerolt kunnen worden
-symbols = ["nothing", "cherry", "nothing", "lemon", "nothing", "grapes", "nothing", "watermelon", "nothing", "seven", "nothing"]
+symbols = ["nothing","nothing","nothing", "cherry", "lemon", "grapes", "watermelon", "seven"]
 
 # het rollen van de drie symbolen die mogelijk zijn
 def rolling():
@@ -67,7 +67,7 @@ def main():
     #checkt of je nog wel kan inzetten of niet meer inzet dan dat je kan
     while balance > 0:
         bet = int_input("Enter bet: ")
-        if bet == 0:
+        if bet <= 0:
             print("You cant bet nothing.")
             continue
         if bet > balance:

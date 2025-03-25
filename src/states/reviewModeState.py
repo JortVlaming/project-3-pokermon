@@ -1,8 +1,8 @@
 import random
 
-from src.engine.globals import Globals
 from src.engine.renderer import Renderer
 from src.engine.state.state import State
+from src.engine.state.stateMachine import StateMachine
 from src.engine.ui.textButton import TextButton
 from src.pokemons.pokemons.eagle import Eagle
 from src.pokemons.pokemons.froggo import Froggo
@@ -13,34 +13,36 @@ from src.states.fightState import FightState
 
 
 class ReviewModeState(State):
-    def __init__(self):
+    def __init__(self, renderer: Renderer, stateMachine: StateMachine):
         super().__init__()
 
         txt = "Next"
-        w = Globals.renderer.get_text_width(txt)
-        self.nextButton = TextButton(int(Globals.renderer.screen.get_width()/2-w/2), Globals.renderer.screen.get_height()-50, w, 45, (150, 150, 150), txt)
+        w = renderer.get_text_width(txt)
+        self.nextButton = TextButton(int(renderer.screen.get_width()/2-w/2), renderer.screen.get_height()-50, w, 45, (150, 150, 150), txt)
         self.nextButton.set_on_click(self.next)
 
         self.buttons = [self.nextButton]
         self.background_color = (200, 200, 200)
         self.review_deel = 1
+        self.renderer = renderer
+        self.stateMachine = stateMachine
 
     def next(self, _):
         self.review_deel+=1
         if self.review_deel == 6:
             txt = "Show fight"
-            w = Globals.renderer.get_text_width(txt)
-            self.nextButton = TextButton(int(Globals.renderer.screen.get_width() / 2 - w / 2),
-                                         Globals.renderer.screen.get_height() - 50, w, 45, (150, 150, 150), txt)
+            w = self.renderer.get_text_width(txt)
+            self.nextButton = TextButton(int(self.renderer.screen.get_width() / 2 - w / 2),
+                                         self.renderer.screen.get_height() - 50, w, 45, (150, 150, 150), txt)
             mons = [Eagle(), Froggo(), Racoon(), Spider(), Turtles()]
             speler = random.choice(mons)
             mons.remove(speler)
             ai = random.choice(mons)
-            self.nextButton.set_on_click(lambda button : Globals.stateMachine.start_transitie(FightState(speler, ai)))
+            self.nextButton.set_on_click(lambda button : self.stateMachine.start_transitie(FightState(speler, ai, self.renderer)))
             self.buttons = [self.nextButton]
 
-    def draw(self):
-        renderer = Globals.renderer
+    def draw(self, renderer):
+        renderer = self.renderer
         renderer.draw_text_x_centered("Review mode activated", 40, color="Black")
         if self.review_deel == 1:
             self.draw_cards(renderer, "harten", "hart")

@@ -2,13 +2,11 @@ import time
 
 import pygame
 
-from src.engine.globals import Globals
 from src.engine.inputManager import InputManager
 from src.engine.logger import *
 from src.engine.renderer import Renderer
 from src.engine.state.stateMachine import StateMachine
 from src.states.mainMenuState import MainMenuState
-from src.states.testState import TestState
 
 info("Hello pokermon!")
 
@@ -18,11 +16,8 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Pokermon")
-Globals.set_window(screen)
 
 renderer = Renderer(screen)
-
-Globals.set_renderer(renderer)
 
 UPDATE_CAP = 1.0/60.0
 
@@ -31,12 +26,10 @@ running = True
 font = pygame.font.Font(None, 64)
 
 inputManager = InputManager()
-Globals.inputManager = inputManager
 
 stateMachine = StateMachine()
-Globals.stateMachine = stateMachine
 
-mainMenuState = MainMenuState()
+mainMenuState = MainMenuState(renderer, stateMachine)
 
 stateMachine.huidige_staat = mainMenuState
 
@@ -72,7 +65,7 @@ def run():
 
                 inputManager.process_event(event)
 
-            stateMachine.update()
+            stateMachine.update(inputManager)
 
             if frameTime >= 1.0:
                 frameTime = 0
@@ -81,9 +74,9 @@ def run():
                 debug("FPS:", fps)
 
         if should_render:
-            renderer.start_frame()
+            renderer.start_frame(stateMachine)
 
-            stateMachine.draw()
+            stateMachine.draw(renderer)
 
             renderer.end_frame()
 
