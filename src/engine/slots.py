@@ -1,7 +1,7 @@
 import random
 from src.utils.input import int_input
 from pygame import K_SPACE, K_UP, K_DOWN, K_r, K_a
-
+from src.engine.ui.textButton import TextButton
 from src.engine.logger import info
 from src.engine.state.state import State
 from src.engine.inputManager import InputManager
@@ -91,11 +91,10 @@ def main():
         elif play_again == "yes" and balance == 0:
             print("Sorry, you don't have enough money left")
             break
-
+# op deze manier start de code niet via de commandline
 if __name__ == "__main__":
     main()
-
-
+#bepaald de status van het spel
 class SlotsState(State):
     def __init__(self):
         super().__init__()
@@ -104,8 +103,8 @@ class SlotsState(State):
 
         self.buttons = []
 
+# hier wordt aangeroepen wat nodig is om het spel te starten
     def transition_cue(self):
-        #self.roll_results = rolling()
         global balance, winning, bet, total
         balance = 10
         winning = 0
@@ -115,6 +114,7 @@ class SlotsState(State):
         self.win_results = win_amount(self.roll_results)
         info(self.roll_results)
 
+# dit zorgt ervoor dat keyboard inputs iets doen
     def update(self, inputManager: InputManager, stateMachine):
         global bet
         if inputManager.is_key_held(K_r):
@@ -133,8 +133,9 @@ class SlotsState(State):
             bet = balance
         if bet < 0:
             bet = 0
+# dit tekent alles op het scherm
     def draw(self, renderer):
-        renderer.draw_rect("lightblue", 0, 0, 2000, 1000)
+        renderer.draw_rect((20, 230, 190), 0, 0, 2000, 1000)
         s1 = renderer.draw_rect("hotpink", 252, 290, 88, 192)
         s2 = renderer.draw_rect("hotpink", 348, 290, 88, 192)
         s3 = renderer.draw_rect("hotpink", 444, 290, 88, 192)
@@ -152,3 +153,4 @@ class SlotsState(State):
         renderer.draw_text("a = all in.", 50, 80, size=30,)
         renderer.draw_text("arrows = higher/lower bet.", 133, 100, size=30)
         renderer.draw_text("space = spin.", 70, 120, size=30)
+        renderer.draw_
