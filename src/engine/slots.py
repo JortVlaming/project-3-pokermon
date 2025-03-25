@@ -7,7 +7,7 @@ bet = 0
 
 
 # symbolen die gerolt kunnen worden
-symbols = ["nothing", "cherry", "nothing", "lemon", "nothing", "grapes", "nothing", "watermelon", "nothing", "seven", "nothing"]
+symbols = ["nothing","nothing","nothing", "cherry", "lemon", "grapes", "watermelon", "seven"]
 
 # het rollen van de drie symbolen die mogelijk zijn
 def rolling():
