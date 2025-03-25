@@ -155,7 +155,7 @@ class Renderer:
 
         self.screen.blit(image, (x, y))
 
-    def draw_image_centered(self, image: Union[str, pygame.Surface], rect: pygame.Rect = None, **kwargs):
+    def draw_image_centered(self, image: Union[str, pygame.Surface], rect: pygame.Rect = None, image_scale:int=1, **kwargs):
         """
         Draws an image centered within a given pygame.Rect (or the whole screen if None),
         with optional alignment and offsets.
@@ -170,8 +170,10 @@ class Renderer:
         if rect is None:
             rect = self.screen.get_rect()  # Default to the entire screen
 
-        if isinstance(image, str):
+        if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image)
+
+        image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
 
         x, y = rect.center
         img_width, img_height = image.get_size()
