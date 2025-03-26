@@ -143,10 +143,10 @@ class SlotsState(State):
 # dit tekent alles op het scherm
     def draw(self, renderer):
         renderer.draw_rect((20, 230, 190), 0, 0, 2000, 1000)
-        s1 = renderer.draw_rect("hotpink", 252, 290, 88, 192)
-        s2 = renderer.draw_rect("hotpink", 348, 290, 88, 192)
-        s3 = renderer.draw_rect("hotpink", 444, 290, 88, 192)
-        renderer.draw_image("assets/slotsmachine.png", 140, 100, 8)
+        s1 = renderer.draw_rect("hotpink", 302, 290, 88, 192)
+        s2 = renderer.draw_rect("hotpink", 398, 290, 88, 192)
+        s3 = renderer.draw_rect("hotpink", 494, 290, 88, 192)
+        renderer.draw_image("assets/slotsmachine.png", 190, 100, 8)
         if self.roll_results is not None:
             if self.roll_results[0] != "nothing":
                 renderer.draw_image_centered(f"assets/{self.roll_results[0]}.png", s1, 1.6)
