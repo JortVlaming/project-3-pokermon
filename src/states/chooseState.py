@@ -26,8 +26,9 @@ class ChooseState(State):
             fight_button_width,
             fight_button_height,
             "White",
-            "Play",
-            "black"
+            "Choose Pokermon",
+            "black",
+            text_size=32
         )
 
         fight_button.set_on_click(lambda btn : self.switch_state(FightState.random_battle(self.renderer), 1))
@@ -45,7 +46,22 @@ class ChooseState(State):
 
         slots_button.set_on_click(lambda btn: self.start_slots())
 
-        self.buttons = [fight_button, slots_button]
+        blackjack_button_width, blackjack_button_height = 200, 320
+        blackjack_button = TextButton(
+            SCREEN_WIDTH / 2 - blackjack_button_width / 2 - blackjack_button_width * 1.33,
+            SCREEN_HEIGHT / 2 - blackjack_button_height / 2,
+            blackjack_button_width,
+            blackjack_button_height,
+            "DarkGray",
+            "Blackjack",
+            "black",
+            text_size=60
+        )
+#       TODO wachten totdat lars blackjack af heeft om het toe te voegen
+#        blackjack_button.set_on_click(lambda btn: self.start_slots())
+
+
+        self.buttons = [fight_button, slots_button, blackjack_button]
         self.stateMachine = None
         self.renderer = None
 
