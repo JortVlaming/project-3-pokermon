@@ -1,6 +1,5 @@
 from typing import Callable
 
-from src.engine.renderer import Renderer
 
 
 class Button:
@@ -19,7 +18,7 @@ class Button:
         if self.on_click is not None:
             self.on_click(self)
 
-    def draw(self, renderer: Renderer):
+    def draw(self, renderer: "Renderer"):
         raise ValueError("How da hell this happen")
 
     def is_in_bounds(self, mouseX: int, mouseY: int) -> bool:
