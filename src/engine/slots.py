@@ -1,6 +1,7 @@
 import random
+
 from src.utils.input import int_input
-from pygame import K_SPACE, K_UP, K_DOWN, K_r, K_a
+from pygame import K_SPACE, K_UP, K_DOWN, K_r, K_a, K_ESCAPE
 from src.engine.ui.textButton import TextButton
 from src.engine.logger import info
 from src.engine.state.state import State
@@ -23,8 +24,7 @@ def rolling():
     return slot_1, slot_2, slot_3
 
 #bepaald of je wint en hoeveel je dan wint
-def win_amount(rolling):
-    global balance, winning, bet, total
+def win_amount(rolling, balance, winning, bet, total):
     if rolling[0] == "cherry" and rolling[1] == "cherry" or rolling[1] == "cherry" and rolling[2] == "cherry" or rolling[0] == "cherry" and rolling[2] == "cherry" :
         winning = bet * 2
         balance += winning
@@ -82,7 +82,7 @@ def main():
         input("press enter to spin the slots")
         rols = rolling()
         print(f"slot 1: {rols[0]}, slot 2: {rols[1]}, slot 3: {rols[2]}")
-        win_amount(rolling())
+        win_amount(rolling(), balance, winning, bet, total)
         #vraagt of je opnieuw wilt of niet en of dat wel kan
         play_again = input("Do you want to play again? (yes/no): ").lower()
         if play_again != "yes":
@@ -103,36 +103,43 @@ class SlotsState(State):
 
         self.buttons = []
 
+        self.balance = 10
+        self.winning = 0
+        self.bet = 0
+        self.total = 0
+
+        self.roll_results = None
+        self.win_results = None
+
 # hier wordt aangeroepen wat nodig is om het spel te starten
     def transition_cue(self):
-        global balance, winning, bet, total
-        balance = 10
-        winning = 0
-        bet = 0
-        total = 0
         self.roll_results = rolling()
-        self.win_results = win_amount(self.roll_results)
+        self.win_results = win_amount(self.roll_results, self.balance, self.winning, self.bet, self.total)
         info(self.roll_results)
 
 # dit zorgt ervoor dat keyboard inputs iets doen
     def update(self, inputManager: InputManager, stateMachine):
-        global bet
         if inputManager.is_key_held(K_r):
-            stateMachine.start_transitie(SlotsState(), 1)
+            s = SlotsState()
+            s.balance = 5
+            stateMachine.start_transitie(s, .25)
         if inputManager.is_key_held(K_a):
-            bet = balance
-        if inputManager.is_key_down(K_SPACE) and bet > 0:
+            self.bet = balance
+        if inputManager.is_key_down(K_ESCAPE):
+            from src.states.chooseState import ChooseState
+            stateMachine.start_transitie(ChooseState.from_slots(self.balance), 1)
+        if inputManager.is_key_down(K_SPACE) and self.bet > 0:
             self.roll_results = rolling()
-            self.win_results = win_amount(self.roll_results)
+            self.win_results = win_amount(self.roll_results, self.balance, self.winning, self.bet, self.total)
             info(self.roll_results)
         if inputManager.is_key_down(K_UP):
-            bet += 1
+            self.bet += 1
         elif inputManager.is_key_down(K_DOWN):
-            bet -= 1
-        if bet > balance:
-            bet = balance
-        if bet < 0:
-            bet = 0
+            self.bet -= 1
+        if self.bet > self.balance:
+            self.bet = self.balance
+        if self.bet < 0:
+            self.bet = 0
 # dit tekent alles op het scherm
     def draw(self, renderer):
         renderer.draw_rect((20, 230, 190), 0, 0, 2000, 1000)
@@ -140,16 +147,23 @@ class SlotsState(State):
         s2 = renderer.draw_rect("hotpink", 348, 290, 88, 192)
         s3 = renderer.draw_rect("hotpink", 444, 290, 88, 192)
         renderer.draw_image("assets/slotsmachine.png", 140, 100, 8)
-        if self.roll_results[0] != "nothing":
-            renderer.draw_image_centered(f"assets/{self.roll_results[0]}.png", s1, 1.6)
-        if self.roll_results[1] != "nothing":
-            renderer.draw_image_centered(f"assets/{self.roll_results[1]}.png", s2, 1.6)
-        if self.roll_results[2] != "nothing":
-            renderer.draw_image_centered(f"assets/{self.roll_results[2]}.png", s3, 1.6)
+        if self.roll_results is not None:
+            if self.roll_results[0] != "nothing":
+                renderer.draw_image_centered(f"assets/{self.roll_results[0]}.png", s1, 1.6)
+            if self.roll_results[1] != "nothing":
+                renderer.draw_image_centered(f"assets/{self.roll_results[1]}.png", s2, 1.6)
+            if self.roll_results[2] != "nothing":
+                renderer.draw_image_centered(f"assets/{self.roll_results[2]}.png", s3, 1.6)
 
-        s = f"Balance: {self.win_results[0]}, Won: {self.win_results[1]}, Total Winnings: {self.win_results[2]}"
+        s = f"Balance: {self.balance}{f", Won: {self.win_results[1]}, Total Winnings: {self.win_results[2]}" if self.win_results else ""}"
+        if self.win_results:
+            self.balance = self.win_results[0]
+            self.winning = self.win_results[1]
+            self.total = self.win_results[2]
         renderer.draw_text_x_centered(s, 30, size=30)
-        renderer.draw_text_x_centered(f"Bet: {str(bet)}", 80, size=30)
+        renderer.draw_text_x_centered(f"Bet: {str(self.bet)}", 80, size=30)
         renderer.draw_text("a = all in.", 50, 80, size=30,)
         renderer.draw_text("arrows = higher/lower bet.", 133, 100, size=30)
         renderer.draw_text("space = spin.", 70, 120, size=30)
+        renderer.draw_text("r = reset.", 50, 140, size=30)
+        renderer.draw_text("esc = cash out.", 80, 160, size=30)

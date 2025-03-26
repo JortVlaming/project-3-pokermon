@@ -43,10 +43,9 @@ class ChooseState(State):
             "black"
         )
 
-        slots_button.set_on_click(lambda btn: self.switch_state(SlotsState(), 1))
+        slots_button.set_on_click(lambda btn: self.start_slots())
 
-        self.buttons.append(fight_button)
-        self.buttons.append(slots_button)
+        self.buttons = [fight_button, slots_button]
         self.stateMachine = None
         self.renderer = None
 
@@ -58,6 +57,11 @@ class ChooseState(State):
             warn("[ChooseState] No renderer defined to switch with!")
             return
         self.stateMachine.start_transitie(state, time)
+
+    def start_slots(self):
+        s = SlotsState()
+        s.balance = self.points
+        self.switch_state(s, 1)
 
     @staticmethod
     def from_slots(balance: int) -> 'ChooseState':
