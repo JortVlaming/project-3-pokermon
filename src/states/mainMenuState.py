@@ -1,16 +1,8 @@
-import random
-
 from src.engine.renderer import Renderer
-from src.engine.slots import SlotsState
 from src.engine.state.state import State
 from src.engine.state.stateMachine import StateMachine
 from src.engine.ui.textButton import TextButton
-from src.pokemons.pokemons.eagle import Eagle
-from src.pokemons.pokemons.froggo import Froggo
-from src.pokemons.pokemons.racoon import Racoon
-from src.pokemons.pokemons.spider import Spider
-from src.pokemons.pokemons.turtles import Turtles
-from src.states.fightState import FightState
+from src.states.chooseState import ChooseState
 from src.states.reviewModeState import ReviewModeState
 
 
@@ -25,11 +17,7 @@ class MainMenuState(State):
         w = renderer.get_text_width(txt)
         reviewButton = TextButton(10, renderer.screen.get_height()-70, w+20, 60, "White", txt, text_color="Black")
 
-        mons = [Eagle(), Froggo(), Racoon(), Spider(), Turtles()]
-        speler = random.choice(mons)
-        mons.remove(speler)
-        ai = random.choice(mons)
-        startButton.set_on_click(lambda button : stateMachine.start_transitie(FightState(speler, ai, renderer), 1.5))
+        startButton.set_on_click(lambda button : stateMachine.start_transitie(ChooseState(), 1.5))
 #        startButton.set_on_click(lambda button : stateMachine.start_transitie(SlotsState()))
         reviewButton.set_on_click(lambda button : stateMachine.start_transitie(ReviewModeState(renderer, stateMachine)))
 
