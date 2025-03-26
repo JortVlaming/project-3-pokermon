@@ -60,6 +60,18 @@ class ChooseState(State):
 #       TODO wachten totdat lars blackjack af heeft om het toe te voegen
 #        blackjack_button.set_on_click(lambda btn: self.start_slots())
 
+        s = "Reset run"
+        self.reset_button = TextButton(
+            SCREEN_WIDTH / 2 - 110,
+            SCREEN_HEIGHT - 75,
+            220,
+            70,
+            "Red",
+            s,
+            text_color="White"
+        )
+
+        self.reset_button.set_on_click(lambda btn : self.reset_run())
 
         self.buttons = [fight_button, slots_button, blackjack_button]
         self.stateMachine = None
@@ -79,6 +91,9 @@ class ChooseState(State):
         s.balance = self.points
         self.switch_state(s, 1)
 
+    def reset_run(self):
+        self.switch_state(ChooseState(), 1)
+
     @staticmethod
     def from_slots(balance: int) -> 'ChooseState':
         s = ChooseState()
@@ -96,4 +111,19 @@ class ChooseState(State):
 
     def draw(self, renderer: Renderer):
         self.renderer = renderer
-        pass
+
+        if self.points > 0:
+            if len(self.buttons) == 4:
+                self.buttons.pop()
+                self.buttons[0].do_clicks = True
+                self.buttons[1].do_clicks = True
+                self.buttons[2].do_clicks = True
+            renderer.draw_text_x_centered(f"Current points: {self.points}", renderer.screen.get_height()-50, size=48)
+        else:
+            if len(self.buttons) < 4:
+                self.buttons.append(self.reset_button)
+                self.buttons[0].do_clicks = False
+                self.buttons[1].do_clicks = False
+                self.buttons[2].do_clicks = False
+
+            renderer.draw_text_x_centered("You do not have any points to play with!", renderer.screen.get_height()-100, size=48)
