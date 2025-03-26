@@ -10,7 +10,7 @@ from src.states.mainMenuState import MainMenuState
 
 info("Hello pokermon!")
 
-pygame.init()
+pygame.font.init()
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
