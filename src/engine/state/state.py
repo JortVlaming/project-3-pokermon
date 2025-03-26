@@ -1,12 +1,13 @@
-﻿from typing import Tuple
+﻿from typing import Tuple, List
 
 import pygame
 
 from src.engine.inputManager import InputManager
+from src.engine.ui.button import Button
 
 
 class State:
-    buttons = []
+    buttons: List["Button"] = []
     do_process_buttons = True
     background_color: Tuple[int, int, int]|str = (255,0,255)
     
@@ -26,5 +27,5 @@ class State:
         if inputManager.is_button_down(pygame.BUTTON_LEFT):
             mX, mY = pygame.mouse.get_pos()
             for btn in self.buttons:
-                if btn.is_in_bounds(mX, mY):
+                if btn.is_in_bounds(mX, mY) and btn.do_clicks:
                     btn.click()
