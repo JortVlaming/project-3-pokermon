@@ -10,6 +10,7 @@ from src.engine.ui.button import Button
 from src.pokemons.attacks.explosion import Explosion
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
+from src.pokemons.pokemons.all import *
 
 
 def get_health_bar(base: int, max_value: int, scale: int) -> Tuple[int, Tuple[int, int, int]]:
@@ -210,3 +211,13 @@ class FightState(State):
                 self.ai.hp = 0
                 stateMachine.start_transitie(MainMenuState(self.renderer, self.stateMachine), 2.5)
                 return
+
+    @staticmethod
+    def random_battle(renderer:Renderer):
+        mons = [Eagle(), Fox(), Froggo(), LLama(), Racoon(), Snake(), Spider(), Turtles(), Whooper()]
+
+        speler = random.choice(mons)
+        mons.remove(speler)
+        ai = random.choice(mons)
+
+        return FightState(speler, ai, renderer)
