@@ -20,6 +20,8 @@ class StateMachine:
         """Start een fade-out, wissel de staat, en start een fade-in."""
         self.transitie = True
         self.transitie_staat = nieuwe_staat
+        if self.transitie_staat.background_color == "inherit":
+            self.transitie_staat.background_color = self.huidige_staat.background_color
         self.transitie_tijd = tijd
         self.transitie_snelheid = 255 / (tijd * 60)  # Aangepaste snelheid
         self.transitie_opaciteit = 0
@@ -47,6 +49,7 @@ class StateMachine:
                 self.transitie = False  # Transitie voltooid
                 self.huidige_staat.do_process_buttons = True
                 self.transitie_stand = 0
+                info("Finished transition to " + type(self.huidige_staat).__name__)
 
         if self.huidige_staat is not None and not self.transitie:
             self.huidige_staat.update(inputManager, self)

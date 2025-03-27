@@ -9,7 +9,7 @@ from src.pokemons.classes.pokermon import Pokermon
 
 class Whooper(Pokermon):
     def __init__(self):
-        super().__init__("assets/Wh.png")
+        super().__init__("assets/Energyzwordedwopper.png")
 
         self.name = "Whoooooooooooo"
         self.max_hp = 90
