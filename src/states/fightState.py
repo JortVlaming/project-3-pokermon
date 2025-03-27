@@ -214,10 +214,11 @@ class FightState(State):
 
     @staticmethod
     def random_battle(renderer:Renderer):
-        mons = [Eagle(), Fox(), Froggo(), LLama(), Racoon(), Snake(), Spider(), Turtles(), Whooper()]
+        mons = get_all()
 
         speler = random.choice(mons)
         mons.remove(speler)
-        ai = random.choice(mons)
+        speler = speler()
+        ai = random.choice(mons)()
 
         return FightState(speler, ai, renderer)
