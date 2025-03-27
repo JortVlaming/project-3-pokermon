@@ -1,5 +1,6 @@
 from typing import Callable
 
+from src.engine.logger import warn, error
 
 
 class Button:
@@ -16,7 +17,11 @@ class Button:
 
     def click(self):
         if self.on_click is not None:
-            self.on_click(self)
+            try:
+                self.on_click(self)
+            except AttributeError as e:
+                error(e)
+                warn("Button heeft lamdba naar niet bestaande functie!")
 
     def draw(self, renderer: "Renderer"):
         raise ValueError("How da hell this happen")
