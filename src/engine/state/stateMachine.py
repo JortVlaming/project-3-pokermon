@@ -49,6 +49,7 @@ class StateMachine:
                 self.transitie = False  # Transitie voltooid
                 self.huidige_staat.do_process_buttons = True
                 self.transitie_stand = 0
+                info("Finished transition to " + type(self.huidige_staat).__name__)
 
         if self.huidige_staat is not None and not self.transitie:
             self.huidige_staat.update(inputManager, self)
