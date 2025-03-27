@@ -45,6 +45,9 @@ def run():
 
     startTime = time.time()
 
+    updateTime = 0
+    drawTime = 0
+
     while running:
         firstTime = time.time_ns() / 1_000_000_000.0
         passedTime = firstTime - lastTime
@@ -57,6 +60,8 @@ def run():
             unprocessedTime -= UPDATE_CAP
             should_render = True
 
+            t = time.time_ns() / 1_000_000_000.0
+
             inputManager.update()
 
             for event in pygame.event.get():
@@ -67,13 +72,18 @@ def run():
 
             stateMachine.update(inputManager)
 
+            updateTime += time.time_ns() / 1_000_000_000.0 - t
+
             if frameTime >= 1.0:
                 frameTime = 0
                 fps = frames
                 frames = 0
-                debug("FPS:", fps)
+                debug("FPS:", fps, "Update Time:", updateTime/fps, "Draw Time:", drawTime/fps)
+                updateTime = 0
 
         if should_render:
+            t = time.time_ns() / 1_000_000_000.0
+
             renderer.start_frame(stateMachine)
 
             stateMachine.draw(renderer)
@@ -85,6 +95,7 @@ def run():
             should_render = False
 
             pygame.display.flip()
+            drawTime += time.time_ns() / 1_000_000_000.0 - t
         else:
             time.sleep(1.0/1000.0)
 

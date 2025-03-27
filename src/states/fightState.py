@@ -7,6 +7,7 @@ from src.engine.logger import info, warn
 from src.engine.renderer import Renderer
 from src.engine.state.state import State
 from src.engine.ui.button import Button
+from src.engine.ui.textButton import TextButton
 from src.pokemons.attacks.explosion import Explosion
 from src.pokemons.classes.attack import Attack
 from src.pokemons.classes.pokermon import Pokermon
@@ -31,16 +32,25 @@ def get_health_bar(base: int, max_value: int, scale: int) -> Tuple[int, Tuple[in
     return bar_length, color
 
 class MoveButton(Button):
-    def __init__(self, x: int, y: int, width: int, height: int, move: Attack, index:int):
+    def __init__(self, x: int, y: int, width: int, height: int, move: Attack | None, index:int, pp: int, max_pp: int):
         super().__init__(x, y, width, height)
 
         self.width = width
         self.height = height
         self.move = move
         self.index = index
+        self.pp = pp
+        self.max_pp = max_pp
 
     def draw(self, renderer: Renderer):
-        pass
+        if self.move:
+            r = renderer.draw_rect((255, 255, 255) if self.pp > 0 else (125, 125, 125), self.x,
+                                   renderer.screen.get_height() - 125, 100, 100)
+            renderer.draw_text_centered(type(self.move).__name__, r, start=48, color=(0, 0, 0), y_offset=-20)
+            renderer.draw_text_centered(f"{self.pp}/{self.max_pp} PP", r, start=24, color=(0, 0, 0), y_offset=20)
+        else:
+            r = renderer.draw_rect((100, 100, 100), self.x, renderer.screen.get_height() - 125, 100, 100)
+            renderer.draw_text_centered("-", r, color=(75, 75, 75))
 
 class FightState(State):
     def __init__(self, speler_mon:Pokermon, ai_mon: Pokermon, renderer: Renderer):
@@ -56,7 +66,6 @@ class FightState(State):
 
         self.staat = 0
 
-        self.buttons = []
         self.background_color = (200, 200, 200)
 
         self.staat = 0
@@ -64,6 +73,34 @@ class FightState(State):
         self.ai_aanval: Attack|None = None
 
         self.buttons_made = False
+
+        menuButton = TextButton(
+            750,
+            renderer.screen.get_height() - 125,
+            100,
+            100,
+            (255, 255, 255),
+            "Menu",
+            (0, 0, 0),
+            48
+        )
+
+        x = 250
+        menuButton.set_on_click(lambda btn : self.toggle_menu())
+
+        self.buttons = [menuButton]
+
+        for i in range(0, 4):
+            move = speler_mon.moves[i] if i < len(speler_mon.moves) else None
+
+            if move:
+                btn = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, move[0], i, move[1], move[2])
+                btn.set_on_click(self.move_click)
+            else:
+                btn = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, None, i, 0, 0)
+
+            self.buttons.append(btn)
+            x += 125
 
     def transition_cue(self):
         self.ai.hp = self.ai.max_hp
@@ -84,7 +121,7 @@ class FightState(State):
                 if self.speler.hp > self.speler.max_hp:
                     self.speler.hp = self.speler.max_hp
             if inputManager.is_key_down(pygame.K_r):
-                stateMachine.start_transitie(FightState(self.speler, self.ai), 1.5)
+                stateMachine.start_transitie(FightState(self.speler, self.ai, self.renderer), 1.5)
                 warn("Gevecht reset triggered")
 
     def draw(self, renderer):
@@ -93,16 +130,16 @@ class FightState(State):
         self.speler.draw(renderer)
         self.ai.draw(renderer)
 
+
         # speler stuff
-        mon_name_rect = renderer.draw_rect((10,10,10,0),20, renderer.screen.get_height()-130, 31*5, 30)
-        mon_health_rect = renderer.draw_rect((10,10,10,0),20, renderer.screen.get_height()-47, 31*5, 30)
+        mon_name_rect = renderer.draw_rect((10, 10, 10, 0), 20, renderer.screen.get_height() - 130, 155, 30)
+        mon_health_rect = renderer.draw_rect((10, 10, 10, 0), 20, renderer.screen.get_height() - 47, 155, 30)
 
         renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
 
-
         renderer.draw_text_centered(self.speler.name, mon_name_rect, alignment="left")
 
-        length, color = get_health_bar(self.speler.hp, self.speler.max_hp, 31*5)
+        length, color = get_health_bar(self.speler.hp, self.speler.max_hp, 155)
 
         renderer.draw_rect(color, 15, renderer.screen.get_height()-75, length, 20)
         renderer.draw_image("assets/healthbar.png", 15, renderer.screen.get_height()-80, 5)
@@ -110,40 +147,18 @@ class FightState(State):
         renderer.draw_text_centered(f"{self.speler.hp}/{self.speler.max_hp}", mon_health_rect, alignment="left", size=32)
 
         # ai stuff
-        r2 = renderer.draw_rect((0,0,0,0), self.ai.x-255+150, 50+100-45, 80, 30)
-        r = renderer.draw_rect((150, 150, 150), self.ai.x-275, 50, 255, 100, 10)
+        ai_health_rect = renderer.draw_rect((0, 0, 0, 0), self.ai.x - 255 + 150, 105, 80, 30)
+        ai_name_rect = renderer.draw_rect((150, 150, 150), self.ai.x - 275, 50, 255, 100, 10)
 
-        renderer.draw_text_centered(self.ai.name, r, start=48, y_offset=-15, alignment="left", x_offset=10)
+        renderer.draw_text_centered(self.ai.name, ai_name_rect, start=48, y_offset=-15, alignment="left", x_offset=10)
 
-        ai_length, ai_color = get_health_bar(self.ai.hp, self.ai.max_hp, 31 * 5)
+        ai_length, ai_color = get_health_bar(self.ai.hp, self.ai.max_hp, 155)
 
-        renderer.draw_rect(ai_color, r.x+10, r.y+r.height-40, ai_length, 20)
-        renderer.draw_image("assets/healthbar.png", r.x+10, r.y+r.height-45, 5)
+        renderer.draw_rect(ai_color, ai_name_rect.x+10, ai_name_rect.y+ai_name_rect.height-40, ai_length, 20)
+        renderer.draw_image("assets/healthbar.png", ai_name_rect.x+10, ai_name_rect.y+ai_name_rect.height-45, 5)
 
 
-        renderer.draw_text_centered(f"{self.ai.hp}/{self.ai.max_hp}", r2, start=48, alignment="left", color=(255, 255, 255))
-
-        x = 250
-
-        for i in range(0, 4):
-            move = self.speler.moves[i] if i < len(self.speler.moves) else None
-
-            if move:
-                r = renderer.draw_rect((255, 255, 255) if move[1] > 0 else (125, 125, 125), x, renderer.screen.get_height()-125, 100, 100)
-                renderer.draw_text_centered(type(move[0]).__name__, r, start=48, color=(0,0,0), y_offset=-20)
-                renderer.draw_text_centered(f"{move[1]}/{move[2]} PP", r, start=24, color=(0,0,0), y_offset=20)
-            else:
-                r = renderer.draw_rect((100, 100, 100), x, renderer.screen.get_height()-125, 100, 100)
-                renderer.draw_text_centered("-", r, color=(75, 75, 75))
-
-            if not self.buttons_made and move:
-                b = MoveButton(x, renderer.screen.get_height() - 125, 100, 100, move[0], i)
-                b.set_on_click(self.move_click)
-                self.buttons.append(b)
-
-            x += 125
-
-        self.buttons_made = True
+        renderer.draw_text_centered(f"{self.ai.hp}/{self.ai.max_hp}", ai_health_rect, start=48, alignment="left", color=(255, 255, 255))
 
     def move_click(self, btn:Button|MoveButton):
         if not isinstance(btn, MoveButton):
