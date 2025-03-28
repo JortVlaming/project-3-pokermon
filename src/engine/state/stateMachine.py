@@ -60,7 +60,8 @@ class StateMachine:
         if self.huidige_staat is not None:
             self.huidige_staat.draw(renderer)
             for btn in self.huidige_staat.buttons:
-                btn.draw(renderer)
+                if btn.do_render:
+                    btn.draw(renderer)
 
         if self.transitie_opaciteit > 0:
             # Teken een zwart vlak met de juiste transparantie
