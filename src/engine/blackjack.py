@@ -1,12 +1,13 @@
 ﻿import os
 import random
 import time
+from functools import lru_cache
 
 from pygame import K_SPACE, K_RETURN
 
 from src.engine.state.state import State
 from src.engine.inputManager import InputManager
-
+from src.engine.ui.textButton import TextButton
 
 card_suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 cards_list = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
@@ -152,31 +153,84 @@ class BlackjackState(State):
         cards_list = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         self.deck = [(suits, card) for suits in card_suits for card in cards_list]
         random.shuffle(self.deck)
-        self.draw_card_speler()
+        self.player_cards = [self.deck.pop(), self.deck.pop()]
+        self.dealer_cards = [self.deck.pop(), self.deck.pop()]
         self.show_dealer_second = False
 
+        hit_button = TextButton(
+            255,
+            500,
+            100,
+            75,
+            "White",
+            "Hit",
+            "Black"
+        )
+
+        hit_button.set_on_click(lambda btn : self.draw_card_speler())
+
+        stand_button = TextButton(
+            375,
+            500,
+            150,
+            75,
+            "White",
+            "Stand",
+            "Black"
+        )
+
+        stand_button.set_on_click(lambda btn : self.draw_card_dealer())
+
+        self.buttons = [hit_button, stand_button]
+
+        self.dealer_is_pulling = False
+        self.dealer_pull_timer = 0
+
     def draw_card_speler(self):
-        new_card_1 = self.deck.pop()
-        new_card_2 = self.deck.pop()
-        self.player_cards = [new_card_1, new_card_2]
+        new_card = self.deck.pop()
+        self.player_cards.append(new_card)
         print(self.player_cards)
+
+    def draw_card_dealer(self):
+        self.buttons[0].do_render = False
+        self.buttons[1].do_render = False
+        if not self.show_dealer_second:
+            self.show_dealer_second = True
+            self.dealer_is_pulling = True
+            return
+        new_card = self.deck.pop()
+        self.dealer_cards.append(new_card)
+        print(self.dealer_cards)
 
     def update(self, inputManager: InputManager, stateMachine):
         if inputManager.is_key_down(K_SPACE):
             self.draw_card_speler()
         if inputManager.is_key_down(K_RETURN):
-            self.show_dealer_second = True
-    def draw(self, renderer):
+            if not self.show_dealer_second:
+                self.show_dealer_second = True
+            else:
+                self.draw_card_dealer()
 
+    def draw(self, renderer):
+        x = 255
+
+        for card in self.player_cards:
+            renderer.draw_image(
+                f"assets/cards/{card[0]}/{card[0]}{card[1]}.png", x,
+                400, 3)
 
             x += 100
+
+        renderer.draw_text(str(hand_val(self.player_cards)), 180, 425, centered=False)
 
         x = 355
 
         if not self.show_dealer_second:
             renderer.draw_image(f"assets/cards/{self.dealer_cards[0][0]}/{self.dealer_cards[0][0]}{self.dealer_cards[0][1]}.png", x, 100, 3)
             renderer.draw_image(f"assets/cards/empty_card.png", x + 100,  100, 3)
+            renderer.draw_text(str(card_value(self.dealer_cards[0])), 280, 125, centered=False)
         else:
+            renderer.draw_text(str(hand_val(self.dealer_cards)), 280, 125, centered=False)
             for card in self.dealer_cards:
                 renderer.draw_image(
                     f"assets/cards/{card[0]}/{card[0]}{card[1]}.png", x,

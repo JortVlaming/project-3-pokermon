@@ -1,3 +1,4 @@
+from src.engine.blackjack import BlackjackState
 from src.engine.inputManager import InputManager
 from src.engine.logger import warn
 from src.engine.renderer import Renderer
@@ -58,7 +59,7 @@ class ChooseState(State):
             text_size=60
         )
 #       TODO wachten totdat lars blackjack af heeft om het toe te voegen
-#        blackjack_button.set_on_click(lambda btn: self.start_slots())
+        blackjack_button.set_on_click(lambda btn: self.switch_state(BlackjackState(self.points), 1))
 
         s = "Reset run"
         self.reset_button = TextButton(
