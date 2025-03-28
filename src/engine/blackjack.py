@@ -169,14 +169,20 @@ class BlackjackState(State):
     def draw(self, renderer):
 
 
-        renderer.draw_image(f"assets/cards/{self.player_cards[0][0]}/{self.player_cards[0][0]}{self.player_cards[0][1]}.png", 255, 400, 3)
-        renderer.draw_image(f"assets/cards/{self.player_cards[1][0]}/{self.player_cards[1][0]}{self.player_cards[1][1]}.png", 355, 400, 3)
+            x += 100
 
-        renderer.draw_image(f"assets/cards/{self.player_cards[2][0]}/{self.player_cards[2][0]}{self.player_cards[2][1]}.png", 355, 100, 3)
+        x = 355
+
         if not self.show_dealer_second:
-            renderer.draw_image(f"assets/cards/empty_card.png", 455,  100, 3)
+            renderer.draw_image(f"assets/cards/{self.dealer_cards[0][0]}/{self.dealer_cards[0][0]}{self.dealer_cards[0][1]}.png", x, 100, 3)
+            renderer.draw_image(f"assets/cards/empty_card.png", x + 100,  100, 3)
         else:
-            renderer.draw_image()
+            for card in self.dealer_cards:
+                renderer.draw_image(
+                    f"assets/cards/{card[0]}/{card[0]}{card[1]}.png", x,
+                    100, 3)
+
+                x += 100
 
 
         # renderer.draw_image("assets/cards/hart/hart5.png", 255, 400,3)
