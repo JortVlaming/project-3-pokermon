@@ -1,12 +1,11 @@
 ﻿import os
 import random
 import time
-from functools import lru_cache
 
-from pygame import K_SPACE, K_RETURN
+from pygame import K_SPACE, K_RETURN, K_r
 
-from src.engine.state.state import State
 from src.engine.inputManager import InputManager
+from src.engine.state.state import State
 from src.engine.ui.textButton import TextButton
 
 card_suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -155,6 +154,7 @@ class BlackjackState(State):
         random.shuffle(self.deck)
         self.player_cards = [self.deck.pop(), self.deck.pop()]
         self.dealer_cards = [self.deck.pop(), self.deck.pop()]
+        self.do_win_checks(True)
         self.show_dealer_second = False
 
         hit_button = TextButton(
@@ -185,11 +185,40 @@ class BlackjackState(State):
 
         self.dealer_is_pulling = False
         self.dealer_pull_timer = 0
+        self.check_win_conditions_after_dealer_pulled = False
+
+        # 0 = speler blackjack
+        # 1 = speler busted
+        # 2 = speler wint met meer punten
+        # 3 = dealer blackjack
+        # 5 = dealer busted
+        # 6 = dealer wint met meer punten
+        # 7 = gelijk spel
+        # 8 = wachten voor reset
+        self.win_state = -1
+
+        self.player_bet = 1
 
     def draw_card_speler(self):
         new_card = self.deck.pop()
         self.player_cards.append(new_card)
         print(self.player_cards)
+
+        s = hand_val(self.player_cards)
+        if s == 21:
+            # TODO speler heeft blackjack
+            print("Speler heeft blackjack")
+            self.buttons[0].do_render = False
+            self.buttons[0].do_clicks = False
+            self.buttons[1].do_render = False
+            self.do_win_checks()
+        elif s > 21:
+            # TODO speler busted
+            print("Speler busted")
+            self.buttons[0].do_render = False
+            self.buttons[0].do_clicks = False
+            self.buttons[1].do_render = False
+            self.do_win_checks()
 
     def draw_card_dealer(self):
         self.buttons[0].do_render = False
@@ -205,11 +234,63 @@ class BlackjackState(State):
     def update(self, inputManager: InputManager, stateMachine):
         if inputManager.is_key_down(K_SPACE):
             self.draw_card_speler()
+        if inputManager.is_key_down(K_r):
+            stateMachine.start_transitie(BlackjackState(self.points), 0.1)
         if inputManager.is_key_down(K_RETURN):
             if not self.show_dealer_second:
                 self.show_dealer_second = True
             else:
                 self.draw_card_dealer()
+        if self.dealer_is_pulling:
+            if hand_val(self.dealer_cards) >= 17:
+                self.dealer_is_pulling = False
+                self.do_win_checks()
+            self.dealer_pull_timer += 1
+            if self.dealer_pull_timer >= 60:
+                self.draw_card_dealer()
+                self.dealer_pull_timer = 0
+
+    def do_win_checks(self, initial_check: bool = False):
+        speler_score = hand_val(self.player_cards)
+        dealer_score = hand_val(self.dealer_cards)
+
+        if speler_score == 21:
+            self.win_state = 0
+        elif dealer_score == 21:
+            self.win_state = 3
+        if not initial_check:
+            if speler_score > 21:
+                self.win_state = 1
+            elif dealer_score > 21:
+                self.win_state = 5
+            else:
+                if speler_score > dealer_score:
+                    self.win_state = 2
+                elif dealer_score > speler_score:
+                    self.win_state = 6
+                elif speler_score == dealer_score:
+                    self.win_state = 7
+
+        if self.win_state != -1:
+            print(self.win_state)
+
+            match self.win_state:
+                case 0:
+                    print("Speler heeft blackjack (3:2)")
+                case 1:
+                    print("Speler busted (0:1)")
+                case 2:
+                    print("Speler wint met meer punten (2:1)")
+                case 3:
+                    print("Dealer heeft blackjack (0:1)")
+                case 5:
+                    print("Dealer busted (2:1)")
+                case 6:
+                    print("Dealer wint met meer punten (0:1)")
+                case 7:
+                    print("Gelijk spel (1:1)")
+
+            self.win_state = 8
 
     def draw(self, renderer):
         x = 255
