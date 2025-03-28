@@ -1,9 +1,10 @@
-﻿import pygame.transform
+﻿from cgitb import Hook
+
+import pygame.transform
 
 from src.pokemons.attacks.bite import Bite
 from src.pokemons.attacks.bladeHat import BladeHat
 from src.pokemons.attacks.doubleKick import DoubleKick
-from src.pokemons.attacks.hookStab import HookStab
 from src.pokemons.classes.pokermon import Pokermon
 
 
@@ -23,7 +24,7 @@ class Fox(Pokermon):
             [Bite(), 10, 10],
             [DoubleKick(), 10, 10],
             [BladeHat(), 10, 10],
-            [HookStab(), 10, 10],
+            [Hook(), 10, 10],
 
         ]
 
