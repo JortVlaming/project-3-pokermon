@@ -45,13 +45,13 @@ class ReviewModeState(State):
         renderer = self.renderer
         renderer.draw_text_x_centered("Review mode activated", 40, color="Black")
         if self.review_deel == 1:
-            self.draw_cards(renderer, "harten", "hart")
+            self.draw_cards(renderer, "hart", "hart")
         elif self.review_deel == 2:
             self.draw_cards(renderer, "klaver", "klaver")
         elif self.review_deel == 3:
             self.draw_cards(renderer, "ruit", "ruit")
         elif self.review_deel == 4:
-            self.draw_cards(renderer, "schoppen", "schop")
+            self.draw_cards(renderer, "schop", "schop")
         elif self.review_deel == 5:
             self.draw_mons(renderer)
         elif self.review_deel == 6:
