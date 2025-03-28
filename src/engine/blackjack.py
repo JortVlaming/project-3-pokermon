@@ -2,9 +2,8 @@
 import random
 import time
 
-from pygame import K_SPACE
+from pygame import K_SPACE, K_RETURN
 
-from src.engine.logger import info
 from src.engine.state.state import State
 from src.engine.inputManager import InputManager
 
@@ -19,9 +18,9 @@ def clear():
     os.system("clear" if os.name != "nt" else "cls")
 
 def card_value(card):
-    if card[1] in ['Jack', 'Queen', 'King']:
+    if card[1] in ['Jack', 'Queen', 'King', "J", "Q", "K"]:
         return 10
-    elif card[1] == 'Ace':
+    elif card[1] == 'Ace' or card[1] == "A":
         return 11
     else:
         return int(card[1])
@@ -146,30 +145,42 @@ if __name__ == "__main__":
 class BlackjackState(State):
     def __init__(self, points: int):
         super().__init__()
-
         self.background_color = "gray"
-
         self.buttons = []
         self.points = points
+        card_suits = ['hart', 'schop', 'ruit', 'klaver']
+        cards_list = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+        self.deck = [(suits, card) for suits in card_suits for card in cards_list]
+        random.shuffle(self.deck)
+        self.draw_card_speler()
+        self.show_dealer_second = False
 
-
-    def get_random_card(self):
-        card_folders = ["assets/cards/harten", "assets/cards/ruit", "assets/cards/klaver", "assets/cards/schoppen"]
-
-        random_folder = random.choice(card_folders)
-
-        card_files = [f for f in os.listdir(random_folder) if f.endswith(".png")]
-
-        card = random.choice(card_files)
-
-
+    def draw_card_speler(self):
+        new_card_1 = self.deck.pop()
+        new_card_2 = self.deck.pop()
+        self.player_cards = [new_card_1, new_card_2]
+        print(self.player_cards)
 
     def update(self, inputManager: InputManager, stateMachine):
         if inputManager.is_key_down(K_SPACE):
-            info("pluh")
-    def draw(self, renderer: "Renderer"):
-        renderer.draw_image("assets/cards/harten/hart5.png", 255, 400,3)
-        renderer.draw_image("assets/cards/harten/hart6.png", 355, 400,3)
+            self.draw_card_speler()
+        if inputManager.is_key_down(K_RETURN):
+            self.show_dealer_second = True
+    def draw(self, renderer):
+
+
+        renderer.draw_image(f"assets/cards/{self.player_cards[0][0]}/{self.player_cards[0][0]}{self.player_cards[0][1]}.png", 255, 400, 3)
+        renderer.draw_image(f"assets/cards/{self.player_cards[1][0]}/{self.player_cards[1][0]}{self.player_cards[1][1]}.png", 355, 400, 3)
+
+        renderer.draw_image(f"assets/cards/{self.player_cards[2][0]}/{self.player_cards[2][0]}{self.player_cards[2][1]}.png", 355, 100, 3)
+        if not self.show_dealer_second:
+            renderer.draw_image(f"assets/cards/empty_card.png", 455,  100, 3)
+        else:
+            renderer.draw_image()
+
+
+        # renderer.draw_image("assets/cards/hart/hart5.png", 255, 400,3)
+        # renderer.draw_image("assets/cards/hart/hart6.png", 355, 400,3)
         renderer.draw_text(f"Jouw punten: {self.points} points", 10, 10, centered=False, size=48, color="Red")
-        renderer.draw_image("assets/cards/harten/hart7.png", 330, 100,3)
-        renderer.draw_image("assets/cards/empty_card.png", 430, 100, 3)
+        # renderer.draw_image("assets/cards/hart/hart7.png", 330, 100,3)
+        # renderer.draw_image("assets/cards/empty_card.png", 430, 100, 3)
