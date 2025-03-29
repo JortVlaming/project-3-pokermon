@@ -5,6 +5,7 @@ import time
 from pygame import K_SPACE, K_RETURN, K_r
 
 from src.engine.inputManager import InputManager
+from src.engine.logger import debug
 from src.engine.state.state import State
 from src.engine.ui.textButton import TextButton
 
@@ -152,6 +153,19 @@ class BlackjackState(State):
         cards_list = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         self.deck = [(suits, card) for suits in card_suits for card in cards_list]
         random.shuffle(self.deck)
+
+        # -2 = spel moet nog worden gestart
+        # -1 = spel is aan het spelen
+        # 0 = speler blackjack
+        # 1 = speler busted
+        # 2 = speler wint met meer punten
+        # 3 = dealer blackjack
+        # 5 = dealer busted
+        # 6 = dealer wint met meer punten
+        # 7 = gelijk spel
+        # 8 = wachten voor reset
+        self.win_state = -2
+
         self.player_cards = [self.deck.pop(), self.deck.pop()]
         self.dealer_cards = [self.deck.pop(), self.deck.pop()]
         self.do_win_checks(True)
@@ -181,23 +195,34 @@ class BlackjackState(State):
 
         stand_button.set_on_click(lambda btn : self.draw_card_dealer())
 
-        self.buttons = [hit_button, stand_button]
+        start_button = TextButton(
+            350,
+            400,
+            200,
+            75,
+            "White",
+            "Start",
+            "Black"
+        )
+
+        start_button.set_on_click(lambda btn : self.start())
+
+        hit_button.do_render = False
+        stand_button.do_render = False
+
+        self.buttons = [hit_button, stand_button, start_button]
 
         self.dealer_is_pulling = False
         self.dealer_pull_timer = 0
         self.check_win_conditions_after_dealer_pulled = False
 
-        # 0 = speler blackjack
-        # 1 = speler busted
-        # 2 = speler wint met meer punten
-        # 3 = dealer blackjack
-        # 5 = dealer busted
-        # 6 = dealer wint met meer punten
-        # 7 = gelijk spel
-        # 8 = wachten voor reset
-        self.win_state = -1
-
         self.player_bet = 1
+
+    def start(self):
+        self.win_state = -1
+        self.buttons[0].do_render = True
+        self.buttons[1].do_render = True
+        self.buttons[2].do_render = False
 
     def draw_card_speler(self):
         new_card = self.deck.pop()
@@ -237,10 +262,7 @@ class BlackjackState(State):
         if inputManager.is_key_down(K_r):
             stateMachine.start_transitie(BlackjackState(self.points), 0.1)
         if inputManager.is_key_down(K_RETURN):
-            if not self.show_dealer_second:
-                self.show_dealer_second = True
-            else:
-                self.draw_card_dealer()
+            self.draw_card_dealer()
         if self.dealer_is_pulling:
             if hand_val(self.dealer_cards) >= 17:
                 self.dealer_is_pulling = False
@@ -271,7 +293,7 @@ class BlackjackState(State):
                 elif speler_score == dealer_score:
                     self.win_state = 7
 
-        if self.win_state != -1:
+        if self.win_state >= 0:
             print(self.win_state)
 
             match self.win_state:
@@ -293,16 +315,21 @@ class BlackjackState(State):
             self.win_state = 8
 
     def draw(self, renderer):
+        if self.win_state == -2:
+            renderer.draw_text_x_centered("Welcome to blackjack!", 40)
+            renderer.draw_text_x_centered("Your bet: " + str(self.player_bet), 75)
+            return
+
         x = 255
 
         for card in self.player_cards:
             renderer.draw_image(
                 f"assets/cards/{card[0]}/{card[0]}{card[1]}.png", x,
-                400, 3)
+                350, 3)
 
             x += 100
 
-        renderer.draw_text(str(hand_val(self.player_cards)), 180, 425, centered=False)
+        renderer.draw_text(str(hand_val(self.player_cards)), 180, 375, centered=False)
 
         x = 355
 
