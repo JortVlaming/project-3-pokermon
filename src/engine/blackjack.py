@@ -3,7 +3,7 @@ import random
 import time
 from typing import List, Tuple
 
-from pygame import K_r, K_UP, K_DOWN
+from pygame import K_r, K_UP, K_DOWN, K_a
 
 from src.engine.inputManager import InputManager
 from src.engine.state.state import State
@@ -302,14 +302,14 @@ class BlackjackState(State):
 
     def update(self, inputManager: InputManager, stateMachine):
         self.stateMachine = stateMachine
-
         if self.restart_timer > 0:
             self.restart_timer -= 1
             if self.restart_timer == 0:
                 self.stateMachine.start_transitie(BlackjackState(self.points), 1)
-
+        if inputManager.is_key_held(K_a):
+            self.player_bet = self.points
         if inputManager.is_key_down(K_r):
-            stateMachine.start_transitie(BlackjackState(self.points), 0.1)
+            stateMachine.start_transitie(BlackjackState(5), 0.1)
         if inputManager.is_key_down(K_UP):
             self.player_bet = min(self.player_bet + 1, self.points)
         if inputManager.is_key_down(K_DOWN):
