@@ -124,7 +124,7 @@ class SlotsState(State):
             s.balance = 5
             stateMachine.start_transitie(s, .25)
         if inputManager.is_key_held(K_a):
-            self.bet = balance
+            self.bet = self.balance
         if inputManager.is_key_down(K_ESCAPE):
             from src.states.chooseState import ChooseState
             stateMachine.start_transitie(ChooseState.from_slots(self.balance), 1)

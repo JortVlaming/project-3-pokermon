@@ -53,7 +53,7 @@ class ChooseState(State):
             SCREEN_HEIGHT / 2 - blackjack_button_height / 2,
             blackjack_button_width,
             blackjack_button_height,
-            "DarkGray",
+            "white",
             "Blackjack",
             "black",
             text_size=60
