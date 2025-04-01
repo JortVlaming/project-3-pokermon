@@ -13,7 +13,7 @@ class Racoon(Pokermon):
         super().__init__("assets/Racoon.png")
 
         self.name = "Trash Panda"
-        self.max_hp = 80
+        self.max_hp = 140
         self.hp = self.max_hp
         self.speed = 110
         self.attack = 130

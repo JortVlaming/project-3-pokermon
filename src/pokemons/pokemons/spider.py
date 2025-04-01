@@ -12,7 +12,7 @@ class Spider(Pokermon):
         super().__init__("assets/spoeder.png")
 
         self.name = "Spoeder"
-        self.max_hp = 90
+        self.max_hp = 140
         self.hp = self.max_hp
         self.speed = 90
         self.attack = 150

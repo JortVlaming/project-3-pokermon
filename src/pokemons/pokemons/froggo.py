@@ -12,7 +12,7 @@ class Froggo(Pokermon):
         super().__init__("assets/Evil_frog.png")
 
         self.name = "Froggo"
-        self.max_hp = 70
+        self.max_hp = 150
         self.hp = self.max_hp
         self.speed = 150
         self.attack = 120
