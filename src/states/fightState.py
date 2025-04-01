@@ -127,15 +127,16 @@ class FightState(State):
     def draw(self, renderer):
         self.renderer = renderer
 
-        self.speler.draw(renderer)
-        self.ai.draw(renderer)
-
-
         # speler stuff
         mon_name_rect = renderer.draw_rect((10, 10, 10, 0), 20, renderer.screen.get_height() - 130, 155, 30)
         mon_health_rect = renderer.draw_rect((10, 10, 10, 0), 20, renderer.screen.get_height() - 47, 155, 30)
 
-        renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
+        renderer.draw_image_centered("assets/grass.png")
+
+        self.speler.draw(renderer)
+        self.ai.draw(renderer)
+
+        #renderer.draw_rect((150, 150, 150), 0, renderer.screen.get_height()-150, renderer.screen.get_width(), 150, 0)
 
         renderer.draw_text_centered(self.speler.name, mon_name_rect, alignment="left")
 
@@ -148,7 +149,7 @@ class FightState(State):
 
         # ai stuff
         ai_health_rect = renderer.draw_rect((0, 0, 0, 0), self.ai.x - 255 + 150, 105, 80, 30)
-        ai_name_rect = renderer.draw_rect((150, 150, 150), self.ai.x - 275, 50, 255, 100, 10)
+        ai_name_rect = renderer.draw_rect((0, 0, 150), self.ai.x - 275, 50, 255, 100, 10)
 
         renderer.draw_text_centered(self.ai.name, ai_name_rect, start=48, y_offset=-15, alignment="left", x_offset=10)
 
@@ -159,7 +160,6 @@ class FightState(State):
 
 
         renderer.draw_text_centered(f"{self.ai.hp}/{self.ai.max_hp}", ai_health_rect, start=48, alignment="left", color=(255, 255, 255))
-
     def move_click(self, btn:Button|MoveButton):
         if not isinstance(btn, MoveButton):
             return

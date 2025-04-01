@@ -11,6 +11,7 @@ class Button:
         self.click_height = click_height
         self.on_click: Callable[["Button"], None]|None = None
         self.do_clicks: bool = True
+        self.do_render: bool = True
 
     def set_on_click(self, function: Callable[["Button"], None]|None):
         self.on_click = function
