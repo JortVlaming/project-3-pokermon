@@ -27,3 +27,7 @@ met spatie kan je spinnen en als je wint is de payout
 3 sevens = 30xbet
 
 fights
+als je dood gaat reset de run
+als je wint ga je door naar het volgende gesrpek
+als je een move gebruikt doe je damage of mis je 
+je kan een critical hit krijgen en die doet meer damage dan een normale attack
