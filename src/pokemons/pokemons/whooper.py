@@ -12,10 +12,11 @@ class Whooper(Pokermon):
         super().__init__("assets/Energyzwordedwopper.png")
 
         self.name = "Whoooooooooooo"
-        self.max_hp = 90
+        self.max_hp = 145
         self.hp = self.max_hp
         self.speed = 90
         self.attack = 150
+        cost = 3
 
         self.moves = [
             [MudSlap(), 10, 10],

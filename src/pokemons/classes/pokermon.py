@@ -13,6 +13,8 @@ class Pokermon:
     #       [(class, pp, max)]
     moves = []
 
+    cost = 0
+
     def __init__(self, image: str):
         img = pygame.image.load(image)
         self.image = img

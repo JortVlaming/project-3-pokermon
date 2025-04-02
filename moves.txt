@@ -67,3 +67,10 @@ Tackle
 Headbutt
 Missile (70)
 Double Kick
+
+# Duck
+
+Magic (50)
+Peck
+AVADA KADAVRA (100)
+Magic missile (70)

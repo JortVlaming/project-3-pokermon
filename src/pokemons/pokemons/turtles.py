@@ -16,10 +16,11 @@ class Turtles(Pokermon):
         super().__init__(f"assets/{naam}.png")
 
         self.name = naam
-        self.max_hp = 100
+        self.max_hp = 250
         self.hp = self.max_hp
         self.speed = 20
         self.attack = 170
+        cost = 3
 
         self.moves = [
             [Explosion(), 1, 1],

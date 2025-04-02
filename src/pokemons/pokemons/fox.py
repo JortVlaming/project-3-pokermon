@@ -13,10 +13,11 @@ class Fox(Pokermon):
         super().__init__("assets/Foxie.png")
 
         self.name = "Foxie"
-        self.max_hp = 70
+        self.max_hp = 160
         self.hp = self.max_hp
-        self.speed = 170
+        self.speed = 140
         self.attack = 160
+        cost = 3
 
         self.moves = [
 

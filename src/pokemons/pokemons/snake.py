@@ -12,10 +12,11 @@ class Snake(Pokermon):
         super().__init__("assets/snek.png")
 
         self.name = "Snek"
-        self.max_hp = 100
+        self.max_hp = 160
         self.hp = self.max_hp
         self.speed = 140
         self.attack = 170
+        cost = 3
 
         self.moves = [
             [PoisonFang(), 10, 10],
