@@ -16,6 +16,7 @@ class Spider(Pokermon):
         self.hp = self.max_hp
         self.speed = 90
         self.attack = 150
+        cost = 2
 
         self.moves = [
             [BugBite(), 10, 10],
