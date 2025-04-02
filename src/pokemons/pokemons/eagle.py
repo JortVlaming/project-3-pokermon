@@ -13,7 +13,7 @@ class Eagle(Pokermon):
         super().__init__("assets/AREND.png")
 
         self.name = "'MERICA"
-        self.max_hp = 80
+        self.max_hp = 210
         self.hp = self.max_hp
         self.speed = 180
         self.attack = 170

@@ -14,7 +14,7 @@ class LLama(Pokermon):
         super().__init__("assets/lama.png")
 
         self.name = "Llllama"
-        self.max_hp = 70
+        self.max_hp = 165
         self.hp = self.max_hp
         self.speed = 150
         self.attack = 120
