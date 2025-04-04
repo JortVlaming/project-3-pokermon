@@ -17,6 +17,7 @@ class Eagle(Pokermon):
         self.hp = self.max_hp
         self.speed = 180
         self.attack = 170
+        self.cost =  4
 
         self.moves = [
 

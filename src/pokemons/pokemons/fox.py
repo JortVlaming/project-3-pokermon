@@ -15,8 +15,9 @@ class Fox(Pokermon):
         self.name = "Foxie"
         self.max_hp = 160
         self.hp = self.max_hp
-        self.speed = 170
+        self.speed = 140
         self.attack = 160
+        self.cost = 3
 
         self.moves = [
 

@@ -16,6 +16,7 @@ class Froggo(Pokermon):
         self.hp = self.max_hp
         self.speed = 150
         self.attack = 120
+        self.cost = 3
 
         self.moves = [
             #class, pp, max_pp

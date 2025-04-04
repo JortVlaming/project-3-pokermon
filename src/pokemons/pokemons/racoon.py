@@ -17,6 +17,7 @@ class Racoon(Pokermon):
         self.hp = self.max_hp
         self.speed = 110
         self.attack = 130
+        self.cost = 2
 
         self.moves = [
             [Headbutt(), 10, 10],

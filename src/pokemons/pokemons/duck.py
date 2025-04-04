@@ -8,7 +8,7 @@ from src.pokemons.classes.pokermon import Pokermon
 
 
 
-class Eagle(Pokermon):
+class Ducky(Pokermon):
     def __init__(self):
         super().__init__("assets/ducky.png")
 
@@ -17,6 +17,7 @@ class Eagle(Pokermon):
         self.hp = self.max_hp
         self.speed = 140
         self.attack = 140
+        self.cost = 2
 
         self.moves = [
 
