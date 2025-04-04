@@ -23,8 +23,11 @@ als je 21 hebt win je tenzij je gelijk speelt met de dealer
 als je lager hebt dan de dealer verlies je tenzij hij boven over 21 gaat
 <br>
 als de dealer over 21 gaat bust hij en win jij tenzij je zelf over 21 bent gegaan
+<br>
 als je 21 met je eerste 2 kaarten hebt krijg je 2.5x terug
+<br>
 als je met meer dan 2 kaarten 21 krijgt moet je gewoon de dealer verslaan en als je wint krijg je inzet 2x 
+<br>
 
 slots
 <br>
@@ -47,11 +50,15 @@ met spatie kan je spinnen en als je wint is de payout
 3 watermelons = 20xbet
 <br>
 3 sevens = 30xbet
-
+<br>
 Choose pokemon
+<br>
 als je de choose pokermon knop kom je in het keuze menu
+<br>
 als je niet genoeg credits hebt kan je die pokermon niet kiezen
+<br>
 als je wel genoeg credits hebt kan je een pokermon kiezen en ga je ook echt vechten met die pokermon
+<br>
 
 fights
 <br>
