@@ -16,7 +16,7 @@ class Whooper(Pokermon):
         self.hp = self.max_hp
         self.speed = 90
         self.attack = 150
-        cost = 3
+        self.cost = 3
 
         self.moves = [
             [MudSlap(), 10, 10],

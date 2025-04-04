@@ -13,4 +13,4 @@ from src.pokemons.pokemons.whooper import Whooper
 
 @lru_cache
 def get_all():
-    return [Eagle, Fox, Froggo, LLama, Racoon, Snake, Spider, Turtles, Whooper]
+    return [Duck, Eagle, Fox, Froggo, LLama, Racoon, Snake, Spider, Turtles, Whooper]
