@@ -140,13 +140,16 @@ class SlotsState(State):
             self.bet = self.balance
         if self.bet < 0:
             self.bet = 0
-# dit tekent alles op het scherm
+
+
     def draw(self, renderer):
+        #dit tekent 3 vierkanten zodat de icoontjes beter in het midden van de slot machine
         renderer.draw_rect((20, 230, 190), 0, 0, 2000, 1000)
         s1 = renderer.draw_rect("hotpink", 302, 290, 88, 192)
         s2 = renderer.draw_rect("hotpink", 398, 290, 88, 192)
         s3 = renderer.draw_rect("hotpink", 494, 290, 88, 192)
         renderer.draw_image("assets/slotsmachine.png", 190, 100, 8)
+        #hier tekent de machine de resultaten van het rollen zodat de goede icoontjes op het beeld komen
         if self.roll_results is not None:
             if self.roll_results[0] != "nothing":
                 renderer.draw_image_centered(f"assets/{self.roll_results[0]}.png", s1, 1.6)
@@ -154,12 +157,13 @@ class SlotsState(State):
                 renderer.draw_image_centered(f"assets/{self.roll_results[1]}.png", s2, 1.6)
             if self.roll_results[2] != "nothing":
                 renderer.draw_image_centered(f"assets/{self.roll_results[2]}.png", s3, 1.6)
-
+        #hier laat het zien hoeveel balance je hebt en hoeveel je wint en totaal gewonnen hebt
         s = f"Balance: {self.balance}{f", Won: {self.win_results[1]}, Total Winnings: {self.win_results[2]}" if self.win_results else ""}"
         if self.win_results:
             self.balance = self.win_results[0]
             self.winning = self.win_results[1]
             self.total = self.win_results[2]
+        #hier is de tekst die de uitleg geeft
         renderer.draw_text_x_centered(s, 30, size=30)
         renderer.draw_text_x_centered(f"Bet: {str(self.bet)}", 80, size=30)
         renderer.draw_text("a = all in.", 50, 80, size=30,)
