@@ -5,7 +5,7 @@ from src.engine.renderer import Renderer
 from src.engine.slots import SlotsState
 from src.engine.state.state import State
 from src.engine.ui.textButton import TextButton
-from src.states.fightState import FightState
+from src.states.choosePokermonState import ChoosePokermonState
 
 
 class ChooseState(State):
@@ -32,7 +32,7 @@ class ChooseState(State):
             text_size=32
         )
 
-        fight_button.set_on_click(lambda btn : self.switch_state(FightState.random_battle(self.renderer), 1))
+        fight_button.set_on_click(lambda btn : self.switch_state(ChoosePokermonState(self.points), 1))
 
         slots_button_width, slots_button_height = 200, 320
         slots_button = TextButton(
@@ -58,7 +58,7 @@ class ChooseState(State):
             "black",
             text_size=60
         )
-#       TODO wachten totdat lars blackjack af heeft om het toe te voegen
+
         blackjack_button.set_on_click(lambda btn: self.switch_state(BlackjackState(self.points), 1))
 
         s = "Reset run"

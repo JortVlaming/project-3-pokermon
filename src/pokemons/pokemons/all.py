@@ -1,3 +1,4 @@
+import random
 from functools import lru_cache
 
 from src.pokemons.pokemons.duck import Ducky
@@ -15,3 +16,6 @@ from src.pokemons.pokemons.whooper import Whooper
 @lru_cache
 def get_all():
     return [Ducky, Eagle, Fox, Froggo, LLama, Racoon, Snake, Spider, Turtles, Whooper]
+
+def get_random():
+    return random.choice(get_all())
