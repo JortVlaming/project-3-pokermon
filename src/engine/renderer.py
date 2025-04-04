@@ -150,7 +150,7 @@ class Renderer:
         if isinstance(image, str):
             image = pygame.image.load(image)
             image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
-        else:
+        elif image_scale != 1:
             image = pygame.transform.scale(image, (image.get_width() * image_scale, image.get_height() * image_scale))
 
         self.screen.blit(image, (x, y))
