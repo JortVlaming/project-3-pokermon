@@ -20,7 +20,7 @@ class Turtles(Pokermon):
         self.hp = self.max_hp
         self.speed = 20
         self.attack = 170
-        cost = 3
+        self.cost = 3
 
         self.moves = [
             [Explosion(), 1, 1],

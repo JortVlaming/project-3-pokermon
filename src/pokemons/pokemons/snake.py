@@ -16,7 +16,7 @@ class Snake(Pokermon):
         self.hp = self.max_hp
         self.speed = 140
         self.attack = 170
-        cost = 3
+        self.cost = 3
 
         self.moves = [
             [PoisonFang(), 10, 10],

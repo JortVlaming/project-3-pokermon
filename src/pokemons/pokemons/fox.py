@@ -17,7 +17,7 @@ class Fox(Pokermon):
         self.hp = self.max_hp
         self.speed = 140
         self.attack = 160
-        cost = 3
+        self.cost = 3
 
         self.moves = [
 
