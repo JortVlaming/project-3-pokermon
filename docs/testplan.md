@@ -13,6 +13,8 @@ je krijt de optie om te hitten en te standen als je boven 21 zit ben je af en ga
 als je 21 hebt win je tenzij je gelijl speelt met de dealer
 als je lager hebt dan de dealer verlies je tenzij hij boven over 21 gaat
 als de dealer over 21 gaat bust hij en win jij tenzij je zelf over 21 bent gegaan
+als je 21 met je eerste 2 kaarten hebt krijg je 2.5x terug
+als je met meer dan 2 kaarten 21 krijgt moet je gewoon de dealer verslaan en als je wint krijg je inzet 2x 
 
 slots
 als je op de slots knop drukt start slots op
@@ -25,6 +27,11 @@ met spatie kan je spinnen en als je wint is de payout
 3 grapes = 15xbet
 3 watermelons = 20xbet
 3 sevens = 30xbet
+
+Choose pokemon
+als je de choose pokermon knop kom je in het keuze menu
+als je niet genoeg credits hebt kan je die pokermon niet kiezen
+als je wel genoeg credits hebt kan je een pokermon kiezen en ga je ook echt vechten met die pokermon
 
 fights
 als je dood gaat reset de run
