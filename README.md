@@ -1,10 +1,32 @@
 # project 3 pokermon
-Door: Jort, Koen en Lars
-<br>
-Product Owner: Jeffry ~~bezos~~ visser
+---
+## beschrijving
 
-Github Project: https://github.com/users/JortVlaming/projects/2
+Pokermon is een spel geinspereerd door pokermon met elementen van blackjack en slots.
+In dit spel zal je punten verdienen in blackjack en slots waarmee je pokermons kan kopen om zo veel mogelijk vijanden te verslaan.
 
-Jort zn tijdverspilling:
+---
+## Start instructies
 
-[![wakatime](https://wakatime.com/badge/user/cd73e9b4-e81f-4ef0-bbf7-7f7979c30101/project/a242e187-e9c2-467e-a4a4-2e6817a3b268.svg)](https://wakatime.com/badge/user/cd73e9b4-e81f-4ef0-bbf7-7f7979c30101/project/a242e187-e9c2-467e-a4a4-2e6817a3b268)
+Om het spel te starten kan je deze instructies volgen:
+- Begin met de game te downloaden
+- Zorg dat je python hebt geinstalleerd
+  - Python kan je [hier](https://www.python.org/) vinden
+- Om het spel te starten run het `run.py` bestand met python
+
+---
+## project details
+
+### Rolverdeling
+
+Jort:
+- Lead Developer
+- Engine Developer
+
+Koen:
+- Lead Artist
+- Developer
+
+Lars:
+- Developer
+- ~~idioot~~
