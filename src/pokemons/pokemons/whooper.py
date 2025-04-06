@@ -21,7 +21,7 @@ class Whooper(Pokermon):
         self.moves = [
             [MudSlap(), 10, 10],
             [EnergyStab(), 10, 10],
-            [MudBomb, 10, 10],
+            [MudBomb(), 10, 10],
             [EnergyCut(), 10, 10],
 
         ]
