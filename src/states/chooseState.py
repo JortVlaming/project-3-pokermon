@@ -33,8 +33,8 @@ class ChooseState(State):
             text_size=32
         )
 
-        #fight_button.set_on_click(lambda btn : self.switch_state(ChoosePokermonState(self.points), 1))
-        fight_button.set_on_click(lambda btn : self.switch_state(FightState.random_battle(self.renderer), 1))
+        fight_button.set_on_click(lambda btn : self.switch_state(ChoosePokermonState(self.points), 1))
+        #fight_button.set_on_click(lambda btn : self.switch_state(FightState.random_battle(self.renderer), 1))
 
         slots_button_width, slots_button_height = 200, 320
         slots_button = TextButton(
