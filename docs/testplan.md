@@ -1,43 +1,43 @@
-Testplan
+# Testplan
 
-Startscherm 
-<br>
-als je op play klikt krijg je de drie knoppen om naar blackjack/slots of pokermon gevechten te gaan
-<br>
-als je op preview klikt krijg je alle kaarten te zien daarna alle pokermons en daarna start gelijk het gevecht
+---
 
-Blackjack
+## Startscherm
+Als je op play klikt krijg je de drie knoppen om naar blackjack/slots of pokermon gevechten te gaan.
+
+---
+
+## Blackjack
+Als je op de blackjack knopt drukt komt blackjack op en kan je inzetten.
 <br>
-Als je op de blackjack knopt drukt komt blackjack op en kan je inzetten
+Met de pijltjes moet je inzetten en je kan niet 0 inzetten en niet meer dan je balance.
 <br>
-met de pijltjes moet je inzetten en je kan niet 0 inzetten en niet meer dan je balance
+Als je quit klikt ga je terug naar het main menu.
 <br>
-als je quit klikt ga je terug naar het main menu
+Als je dan op start klikt start blackjack.
 <br>
-als je dan op start klikt start blackjack
+Je krijt de optie om te hitten en te standen als je boven 21 zit ben je af en gaat je inzet weg.
 <br>
-je krijt de optie om te hitten en te standen als je boven 21 zit ben je af en gaat je inzet weg
+Als je 21 hebt win je tenzij je gelijk speelt met de dealer.
 <br>
-als je 21 hebt win je tenzij je gelijk speelt met de dealer
+Als je lager hebt dan de dealer verlies je tenzij hij boven over 21 gaat.
 <br>
-als je lager hebt dan de dealer verlies je tenzij hij boven over 21 gaat
+Als de dealer over 21 gaat bust hij en win jij tenzij je zelf over 21 bent gegaan.
 <br>
-als de dealer over 21 gaat bust hij en win jij tenzij je zelf over 21 bent gegaan
+Als je 21 met je eerste 2 kaarten hebt krijg je 2.5x terug.
 <br>
-als je 21 met je eerste 2 kaarten hebt krijg je 2.5x terug
-<br>
-als je met meer dan 2 kaarten 21 krijgt moet je gewoon de dealer verslaan en als je wint krijg je inzet 2x 
+Als je met meer dan 2 kaarten 21 krijgt moet je gewoon de dealer verslaan en als je wint krijg je inzet 2x. 
 <br>
 
-slots
+---
+## slots
+Als je op de slots knop drukt start slots op.
 <br>
-als je op de slots knop drukt start slots op
+Als je op r klikt reset hij zodat je weer met een balance van 5 start.
 <br>
-als je op r klikt reset hij zodat je weer met een balance van 5 start
+Als je met de pijltjes je bet inzet kan je niet onder 0 komen of boven je balance.
 <br>
-als je met de pijltjes je bet inzet kan je niet onder 0 komen of boven je balance
-<br>
-met spatie kan je spinnen en als je wint is de payout
+Met spatie kan je spinnen en als je wint is de payout.
 <br>
 2 cherries = 2xbet
 <br>
@@ -51,21 +51,32 @@ met spatie kan je spinnen en als je wint is de payout
 <br>
 3 sevens = 30xbet
 <br>
-Choose pokemon
+---
+## Choose pokemon
+Als je de choose pokermon knop kom je in het keuze menu.
 <br>
-als je de choose pokermon knop kom je in het keuze menu
+Als je niet genoeg credits hebt kan je die pokermon niet kiezen.
 <br>
-als je niet genoeg credits hebt kan je die pokermon niet kiezen
+Als je wel genoeg credits hebt kan je die pokermon kiezen.
 <br>
-als je wel genoeg credits hebt kan je een pokermon kiezen en ga je ook echt vechten met die pokermon
+Je kan maximaal 4 pokermons kiezen.
 <br>
+Je kan niet het gevecht starten voordat je een pokermon hebt gekozen.
 
-fights
+---
+## fights
+Als je dood gaat ga je naar je volgende pokermon.
 <br>
-als je dood gaat reset de run
+Als je geen pokermons over hebt reset je run.
 <br>
-als je wint ga je door naar het volgende gesrpek
+Als je wint ga je door naar het volgende gevecht.
 <br>
-als je een move gebruikt doe je damage of mis je 
+Als je een move gebruikt doe je damage of mis je. 
 <br>
-je kan een critical hit krijgen en die doet meer damage dan een normale attack
+Je kan een critical hit krijgen en die doet meer damage dan een normale attack.
+<br>
+Als je op switch drukt komen de pokermon knoppen zichtbaar.
+<br>
+Als je op cancel drukt ga je terug naar het move menu.
+<br>
+Na dat je een aanval hebt gebruikt of van pokermon wisselt zie je de battle log.
