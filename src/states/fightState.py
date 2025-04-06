@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import pygame
 
@@ -105,6 +105,7 @@ class FightState(State):
         self.next_transition_state = None
         self.next_transition_speed = None
 
+        self.auto_switch(initial=True)
         self.make_buttons()
 
 
@@ -150,14 +151,15 @@ class FightState(State):
         self.make_buttons()
         self.set_log(f"{self.active_speler.name} is ready to fight!")
 
-    def auto_switch(self):
+    def auto_switch(self, initial=False):
         for i, mon in enumerate(self.speler_team):
             if mon.hp > 0:
                 self.current_speler_index = i
                 self.active_speler.x = 150
                 self.active_speler.y = self.renderer.screen.get_height() - self.active_speler.image.get_height() - 150
                 self.make_buttons()
-                self.set_log(f"{mon.name} steps in!")
+                if not initial:
+                    self.set_log(f"{mon.name} steps in!")
                 return True
         return False
 
@@ -167,9 +169,6 @@ class FightState(State):
         self.awaiting_continue = True
 
     def handle_combat(self, btn: MoveButton):
-        from src.states.mainMenuState import MainMenuState
-        stateMachine = self.stateMachine
-
         log_lines = []
 
         if self.active_speler.speed >= self.ai.speed:
@@ -190,8 +189,8 @@ class FightState(State):
                 self.ai.hp = 0
                 log_lines.append("Enemy fainted! You win!")
                 self.set_log("\n".join(log_lines))
-                self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
-                self.next_transition_speed = 2.5
+                self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+                self.next_transition_speed = 1
                 return
 
             move = random.choice(self.ai.moves)
@@ -213,8 +212,8 @@ class FightState(State):
                 else:
                     log_lines.append("No Pokémon left! You lost.")
                     self.set_log("\n".join(log_lines))
-                    self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
-                    self.next_transition_speed = 2.5
+                    self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+                    self.next_transition_speed = 1
                     return
 
             if self.active_speler.moves[btn.index][1] <= 0:
@@ -232,16 +231,16 @@ class FightState(State):
             if not self.auto_switch():
                 log_lines.append("No Pokémon left! You lost.")
                 self.set_log("\n".join(log_lines))
-                self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
-                self.next_transition_speed = 2.5
+                self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+                self.next_transition_speed = 1
                 return
 
         if self.ai.hp <= 0:
             self.ai.hp = 0
             log_lines.append("Enemy fainted! You win!")
             self.set_log("\n".join(log_lines))
-            self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
-            self.next_transition_speed = 2.5
+            self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+            self.next_transition_speed = 1
             return
 
         self.set_log("\n".join(log_lines))
@@ -255,6 +254,9 @@ class FightState(State):
         self.stateMachine = stateMachine
         if self.awaiting_continue:
             if inputManager.is_key_down(pygame.K_SPACE):
+                if self.log_display_index < len(self.log_text):
+                    self.log_display_index = len(self.log_text)
+                    return
                 self.awaiting_continue = False
                 self.log_text = ""
                 self.make_buttons()
@@ -307,5 +309,14 @@ class FightState(State):
         speler_team = [mon() for mon in speler_team]
         for mon in speler_team:
             mons.remove(type(mon))
+        ai = random.choice(mons)()
+        return FightState(speler_team, ai, renderer)
+
+    @staticmethod
+    def random_battle_wt(renderer: Renderer, speler_team: List[Pokermon]):
+        mons = get_all()
+        for mon in speler_team:
+            if type(mon) in mons:
+                mons.remove(type(mon))
         ai = random.choice(mons)()
         return FightState(speler_team, ai, renderer)
