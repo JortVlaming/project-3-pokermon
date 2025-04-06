@@ -69,4 +69,4 @@ class ChoosePokermonState(State):
         if self.balance < btn.pokermon.cost:
             return
 
-        self.stateMachine.start_transitie(FightState(type(btn.pokermon)(), get_random()(), self.renderer))
+        self.stateMachine.start_transitie(FightState([type(btn.pokermon)()], get_random()(), self.renderer))
