@@ -283,7 +283,7 @@ class BlackjackState(State):
         payout = 0
         match self.win_state:
             case 0:  # Player blackjack (3:2)
-                payout = int(self.player_bet * 1.5)
+                payout = self.player_bet + int(self.player_bet * 1.5)
             case 1:  # Player busted (lose bet)
                 payout = 0
             case 2:  # Player wins with more points (1:1)

@@ -51,25 +51,38 @@ class Renderer:
         """
         return pygame.font.Font(None, size)
 
-    def draw_text(self, text: str, x: int, y: int, size:int=64, antialias:bool=True, color:str|Tuple[int, int, int]="Black", centered:bool=True):
+    def draw_text(self, text: str, x: int, y: int, size: int = 64, antialias: bool = True,
+                  color: str | Tuple[int, int, int] = "Black", centered: bool = True):
         """
-        Rendered tekst op het scherm op een specifieke positie
-        :param text: De tekst om te renderen op het scherm
-        :param x: De X positie van de tekst
-        :param y: De Y positie van de tekst
-        :param size: (optional: int) De grootte van de font om te gebruiken
-        :param antialias: (optional: True or False) Of de tekst moet worden gerenderd met antialiasing
-        :param color: (optional: str or Tuple[int, int, int]) Kleur van de tekst om te renderen
-        :param centered: (optional: bool) Of de tekst is gecentreerd op de X, Y positie
+        Rendered text on the screen at a specific position, supporting line breaks.
+        :param text: The text to render on the screen
+        :param x: The X position of the text
+        :param y: The Y position of the text
+        :param size: (optional: int) The font size to use
+        :param antialias: (optional: True or False) Whether the text should be rendered with antialiasing
+        :param color: (optional: str or Tuple[int, int, int]) The color of the text to render
+        :param centered: (optional: bool) Whether the text should be centered at the X, Y position
         :return:
         """
         f = self.get_font_of_size(size)
-        text_surface = f.render(text, antialias, color)
+        lines = text.split('\n')  # Split the text by newlines
+        line_height = f.get_height()  # Height of a single line of text
+        total_height = line_height * len(lines)  # Total height of all lines
+
+        # Adjust starting Y position if centered
         if centered:
-            text_pos = text_surface.get_rect(centerx=x, centery=y)
-        else:
-            text_pos = text_surface.get_rect(x=x, y=y)
-        self.screen.blit(text_surface, text_pos)
+            y -= total_height // 2
+
+        for line in lines:
+            text_surface = f.render(line, antialias, color)
+
+            if centered:
+                text_pos = text_surface.get_rect(centerx=x, centery=y)
+            else:
+                text_pos = text_surface.get_rect(x=x, y=y)
+
+            self.screen.blit(text_surface, text_pos)
+            y += line_height  # Move down for the next line
 
     def draw_text_x_centered(self, text: str, y: int, **kwargs):
         """

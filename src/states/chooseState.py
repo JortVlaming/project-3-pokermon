@@ -6,6 +6,7 @@ from src.engine.slots import SlotsState
 from src.engine.state.state import State
 from src.engine.ui.textButton import TextButton
 from src.states.choosePokermonState import ChoosePokermonState
+from src.states.fightState import FightState
 
 
 class ChooseState(State):
@@ -33,6 +34,7 @@ class ChooseState(State):
         )
 
         fight_button.set_on_click(lambda btn : self.switch_state(ChoosePokermonState(self.points), 1))
+        #fight_button.set_on_click(lambda btn : self.switch_state(FightState.random_battle(self.renderer), 1))
 
         slots_button_width, slots_button_height = 200, 320
         slots_button = TextButton(
