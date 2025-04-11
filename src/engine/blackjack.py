@@ -299,7 +299,7 @@ class BlackjackState(State):
 
         self.points += payout
         print(f"Payout: {payout}, New points: {self.points}")
-
+    # Knoppen voor de game (inclusief voor keyboard)
     def update(self, inputManager: InputManager, stateMachine):
         self.stateMachine = stateMachine
         if self.restart_timer > 0:
@@ -322,7 +322,7 @@ class BlackjackState(State):
             if self.dealer_pull_timer >= 60:
                 self.draw_card_dealer()
                 self.dealer_pull_timer = 0
-
+    #Laat huidige bet zien
     def draw(self, renderer):
         if self.win_state == -2:
             renderer.draw_text_x_centered("Welcome to blackjack!", 40)
@@ -333,7 +333,7 @@ class BlackjackState(State):
 
 
         x = 255
-
+        # Laat zien hoe dicht bij je 21 zit
         for card in self.player_cards:
             renderer.draw_image(
                 f"assets/cards/{card[0]}/{card[0]}{card[1]}.png", x,
@@ -344,7 +344,7 @@ class BlackjackState(State):
         renderer.draw_text(str(hand_val(self.player_cards)), 180, 375, centered=False)
 
         x = 355
-
+    # Card renderer
         if not self.show_dealer_second:
             renderer.draw_image(f"assets/cards/{self.dealer_cards[0][0]}/{self.dealer_cards[0][0]}{self.dealer_cards[0][1]}.png", x, 100, 3)
             renderer.draw_image(f"assets/cards/empty_card.png", x + 100,  100, 3)
