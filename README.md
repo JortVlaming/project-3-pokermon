@@ -29,4 +29,3 @@ Koen:
 
 Lars:
 - Developer
-- ~~idioot~~
