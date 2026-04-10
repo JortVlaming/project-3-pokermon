@@ -1,0 +1,404 @@
+@startuml Pokermon
+' !pragma layout smetana
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle plain
+skinparam classStereotypeFontSize 10
+skinparam groupInheritance 2
+hide empty members
+
+' ── Colour coding per package ─────────────────────────────────────────────────
+skinparam class {
+  BackgroundColor<<engine>>  #DBEAFE
+  BorderColor<<engine>>      #1D4ED8
+  HeaderBackgroundColor<<engine>> #2563EB
+  FontColor<<engine>>        White
+
+  BackgroundColor<<state>>   #DCFCE7ß
+  BorderColor<<state>>       #166534
+  HeaderBackgroundColor<<state>>  #15803D
+  FontColor<<state>>         White
+
+  BackgroundColor<<domain>>  #FFEDD5
+  BorderColor<<domain>>      #9A3412
+  HeaderBackgroundColor<<domain>> #C2410C
+  FontColor<<domain>>        White
+
+  BackgroundColor<<pokemon>> #F3E8FF
+  BorderColor<<pokemon>>     #6D28D9
+  HeaderBackgroundColor<<pokemon>> #7C3AED
+  FontColor<<pokemon>>       White
+
+  BackgroundColor<<attack>>  #FFE4E6
+  BorderColor<<attack>>      #9F1239
+  HeaderBackgroundColor<<attack>>  #BE123C
+  FontColor<<attack>>        White
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' ENGINE
+' ═══════════════════════════════════════════════════════════════════════════════
+
+package "Engine" {
+
+  class Renderer <<engine>> {
+    - screen
+    - font
+    - text_color
+    --
+    + set_font()
+    + set_text_color()
+    + start_frame(state_machine)
+    + end_frame()
+    + get_font_of_size(size)
+    + draw_text(text, x, y)
+    + draw_text_x_centered(text, y)
+    + draw_text_centered(text, x, y)
+    + get_text_width(text)
+    + draw_rect(x, y, w, h, color)
+    + draw_image(image, x, y)
+    + draw_image_centered(image, x, y)
+  }
+
+  class InputManager <<engine>> {
+    - keys
+    - keysLast
+    - buttons
+    - buttonsLast
+    --
+    + update()
+    + process_event(event)
+    + is_key_down(key)
+    + is_key_held(key)
+    + is_button_down(button)
+    + is_button_held(button)
+  }
+
+  class StateMachine <<engine>> {
+    - huidige_staat
+    - transitie_staat
+    - transitie_bezig
+    - transitie_tijd
+    - transitie_opacity
+    --
+    + start_transitie(nieuwe_staat, tijd)
+    + update(input_manager)
+    + draw(renderer)
+  }
+
+  abstract class State <<engine>> {
+    # buttons : List[Button]
+    # do_process_buttons : bool
+    # background_color
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+    + transition_cue()
+    + process_buttons(input_manager)
+  }
+
+  abstract class Button <<engine>> {
+    # x
+    # y
+    # click_width
+    # click_height
+    # on_click
+    # do_clicks
+    # do_render
+    --
+    + set_on_click(callback)
+    + click()
+    + {abstract} draw(renderer)
+    + is_in_bounds(x, y)
+  }
+
+  class ImageButton <<engine>> {
+    - image
+    - scale
+    --
+    + draw(renderer)
+  }
+
+  class TextButton <<engine>> {
+    - text
+    - width
+    - height
+    - bg_color
+    - text_color
+    --
+    + draw(renderer)
+  }
+
+  enum LogLevel <<engine>> {
+    VERBOSE
+    DEBUG
+    INFO
+    WARN
+    ERROR
+  }
+
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' STATES
+' ═══════════════════════════════════════════════════════════════════════════════
+
+package "States" {
+
+  class MainMenuState <<state>> {
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+  }
+
+  class ChooseState <<state>> {
+    - points : int
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+    + {static} from_slots(cls, points)
+    + {static} from_blackjack(cls, points)
+  }
+
+  class ChoosePokermonState <<state>> {
+    - points : int
+    - selected : List[Pokermon]
+    - balance : int
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+    + start_battle(state_machine)
+  }
+
+  class FightState <<state>> {
+    - speler_team : List[Pokermon]
+    - ai : Pokermon
+    - switching : bool
+    - huidige : Pokermon
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+    + move_click(move, state_machine)
+    + {static} random_battle()
+    + {static} random_battle_wt()
+  }
+
+  class BlackjackState <<state>> {
+    - points : int
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+    + quit()
+  }
+
+  class SlotsState <<state>> {
+    - balance : int
+    --
+    + update(input_manager, state_machine)
+    + draw(renderer)
+  }
+
+  class PokermonButton <<state>> {
+    - pokermon : Pokermon
+    --
+    + draw(renderer)
+  }
+
+  class StartButton <<state>> {
+    - enabled : bool
+    --
+    + set_enabled(enabled)
+    + draw(renderer)
+  }
+
+  class MoveButton <<state>> {
+    - move : Attack
+    - index : int
+    - pp : int
+    - max_pp : int
+    --
+    + draw(renderer)
+  }
+
+  class SwitchButton <<state>> {
+    - pokermon : Pokermon
+    - index : int
+    --
+    + draw(renderer)
+  }
+
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' DOMAIN
+' ═══════════════════════════════════════════════════════════════════════════════
+
+package "Domain" {
+
+  class Pokermon <<domain>> {
+    + name : str
+    + hp : int
+    + max_hp : int
+    + speed : int
+    + attack : int
+    + defense : int
+    + moves : List
+    + cost : int
+    - image
+    - x : int
+    - y : int
+    --
+    + __init__(image : str)
+    + draw(renderer)
+  }
+
+  class Attack <<domain>> {
+    + name : str
+    + damage : int
+    --
+    + __init__(name, damage)
+    + calculate_damage(attacker, attacked, do_specials) : int
+  }
+
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' CONCRETE POKERMONS
+' ═══════════════════════════════════════════════════════════════════════════════
+
+package "Pokermons" {
+  class Ducky   <<pokemon>>
+  class Eagle   <<pokemon>>
+  class Fox     <<pokemon>>
+  class Froggo  <<pokemon>>
+  class LLama   <<pokemon>>
+  class Racoon  <<pokemon>>
+  class Snake   <<pokemon>>
+  class Spider  <<pokemon>>
+  class Turtles <<pokemon>>
+  class Whooper <<pokemon>>
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' CONCRETE ATTACKS
+' ═══════════════════════════════════════════════════════════════════════════════
+
+package "Attacks" {
+  class AvadaKadavra    <<attack>>
+  class BarbBarrage     <<attack>>
+  class BladeHat        <<attack>>
+  class BombThrow       <<attack>>
+  class BodySlam        <<attack>>
+  class BugBite         <<attack>>
+  class Bite            <<attack>>
+  class Coil            <<attack>>
+  class CrossPoison     <<attack>>
+  class DoubleKick      <<attack>>
+  class EnergyCut       <<attack>>
+  class EnergyStab      <<attack>>
+  class Explosion       <<attack>>
+  class FeintAttack     <<attack>>
+  class FirstImpression <<attack>>
+  class FoulPlay        <<attack>>
+  class Gun             <<attack>>
+  class HeadSmash       <<attack>>
+  class Headbutt        <<attack>>
+  class HookStab        <<attack>>
+  class Lick            <<attack>>
+  class Lunge           <<attack>>
+  class Magic           <<attack>>
+  class MagicMissile    <<attack>>
+  class Missile         <<attack>>
+  class MudBomb         <<attack>>
+  class MudSlap         <<attack>>
+  class Peck            <<attack>>
+  class PoisonFang      <<attack>>
+  class SteelWing       <<attack>>
+  class Tackle          <<attack>>
+  class WindCutter      <<attack>>
+}
+
+' ═══════════════════════════════════════════════════════════════════════════════
+' RELATIONSHIPS
+' ═══════════════════════════════════════════════════════════════════════════════
+
+' Button hierarchy
+Button      <|-- ImageButton
+Button      <|-- TextButton
+TextButton  <|-- StartButton
+Button      <|-- MoveButton
+Button      <|-- SwitchButton
+Button      <|-- PokermonButton
+
+' State hierarchy
+State <|-- MainMenuState
+State <|-- ChooseState
+State <|-- ChoosePokermonState
+State <|-- FightState
+State <|-- BlackjackState
+State <|-- SlotsState
+
+' Pokermon subclasses
+Pokermon <|-- Ducky
+Pokermon <|-- Eagle
+Pokermon <|-- Fox
+Pokermon <|-- Froggo
+Pokermon <|-- LLama
+Pokermon <|-- Racoon
+Pokermon <|-- Snake
+Pokermon <|-- Spider
+Pokermon <|-- Turtles
+Pokermon <|-- Whooper
+
+' Attack subclasses
+Attack <|-- AvadaKadavra
+Attack <|-- BarbBarrage
+Attack <|-- BladeHat
+Attack <|-- BombThrow
+Attack <|-- BodySlam
+Attack <|-- BugBite
+Attack <|-- Bite
+Attack <|-- Coil
+Attack <|-- CrossPoison
+Attack <|-- DoubleKick
+Attack <|-- EnergyCut
+Attack <|-- EnergyStab
+Attack <|-- Explosion
+Attack <|-- FeintAttack
+Attack <|-- FirstImpression
+Attack <|-- FoulPlay
+Attack <|-- Gun
+Attack <|-- HeadSmash
+Attack <|-- Headbutt
+Attack <|-- HookStab
+Attack <|-- Lick
+Attack <|-- Lunge
+Attack <|-- Magic
+Attack <|-- MagicMissile
+Attack <|-- Missile
+Attack <|-- MudBomb
+Attack <|-- MudSlap
+Attack <|-- Peck
+Attack <|-- PoisonFang
+Attack <|-- SteelWing
+Attack <|-- Tackle
+Attack <|-- WindCutter
+
+' Composition – structural ownership
+State        *-- "many" Button   : buttons
+StateMachine *-- "1"    State    : huidige_staat
+FightState   *-- "many" Pokermon : speler_team / ai
+Pokermon     *-- "many" Attack   : moves
+
+' Association – service dependencies
+StateMachine --> InputManager : uses
+StateMachine --> Renderer     : uses
+
+' Dependency – screen navigation
+MainMenuState       ..> ChooseState         : play
+ChooseState         ..> ChoosePokermonState : fight
+ChooseState         ..> BlackjackState      : blackjack
+ChooseState         ..> SlotsState          : slots
+ChoosePokermonState ..> FightState          : battle
+
+@enduml
