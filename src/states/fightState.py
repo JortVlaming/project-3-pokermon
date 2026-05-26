@@ -104,6 +104,7 @@ class FightState(State):
         self.ai.y = 200 - self.ai.image.get_height()
         self.next_transition_state = None
         self.next_transition_speed = None
+        self.stateMachine = None
 
         self.auto_switch(initial=True)
         self.make_buttons()
@@ -212,7 +213,8 @@ class FightState(State):
                 else:
                     log_lines.append("No Pokémon left! You lost.")
                     self.set_log("\n".join(log_lines))
-                    self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+                    from src.states.mainMenuState import MainMenuState
+                    self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
                     self.next_transition_speed = 1
                     return
 
@@ -231,7 +233,8 @@ class FightState(State):
             if not self.auto_switch():
                 log_lines.append("No Pokémon left! You lost.")
                 self.set_log("\n".join(log_lines))
-                self.next_transition_state = self.random_battle_wt(self.renderer, self.speler_team)
+                from src.states.mainMenuState import MainMenuState
+                self.next_transition_state = MainMenuState(self.renderer, self.stateMachine)
                 self.next_transition_speed = 1
                 return
 
